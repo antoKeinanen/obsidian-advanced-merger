@@ -10,7 +10,7 @@ export default class AdvancedMerge extends Plugin {
 				if (folderOrFile instanceof TFolder) {
 					const folder = file;
 					menu.addItem((item) => {
-						item.setTitle("Merge files")
+						item.setTitle("Merge folder")
 							.setIcon("git-merge")
 							.onClick(async () => {
 								const { vault } = this.app;
