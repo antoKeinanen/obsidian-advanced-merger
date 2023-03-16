@@ -1,0 +1,11 @@
+{
+	"id": "obsidian-advanced-merge",
+	"name": "Sample Plugin",
+	"version": "1.0.0",
+	"minAppVersion": "0.15.0",
+	"description": "Merge a folder of notes for easier export.",
+	"author": "Anto Keinänen",
+	"authorUrl": "https://github.com/antoKeinanen",
+	"fundingUrl": "https://obsidian.md/pricing",
+	"isDesktopOnly": false
+}
