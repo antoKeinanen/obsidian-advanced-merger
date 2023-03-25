@@ -41,8 +41,4 @@ export default class AdvancedMerge extends Plugin {
 			})
 		);
 	}
-
-	onunload() {
-		this.app.workspace.off("file-menu", () => {});
-	}
 }
