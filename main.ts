@@ -4,10 +4,7 @@ export default class AdvancedMerge extends Plugin {
 	onload() {
 		this.registerEvent(
 			this.app.workspace.on("file-menu", (menu, file) => {
-				const folderOrFile = this.app.vault.getAbstractFileByPath(
-					file.path
-				);
-				if (folderOrFile instanceof TFolder) {
+				if (file instanceof TFolder) {
 					const folder = file;
 					menu.addItem((item) => {
 						item.setTitle("Merge folder")
