@@ -119,10 +119,10 @@ class AdvancedMergeSettingTab extends PluginSettingTab {
 			.setDesc('If enabled, files in nested folders will be included in merge. Otherwise, only files in selected folder will be merged (default behaviour).')
 			.addToggle(toggle => toggle
 				.setTooltip('Merge files in nested folders')
-				.setValue(this.plugin.settings.sortAlphabetically)
+				.setValue(this.plugin.settings.includeNestedFolders)
 				.onChange(async (value) => {
-					console.log('sort alphabetically: ' + value);
-					this.plugin.settings.sortAlphabetically = value;
+					console.log('includeNestedFolders: ' + value);
+					this.plugin.settings.includeNestedFolders = value;
 					await this.plugin.saveSettings();
 				}));
 	}
