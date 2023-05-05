@@ -12,11 +12,6 @@ export default class AdvancedMerge extends Plugin {
 							.onClick(async () => {
 								const { vault } = this.app;
 
-								const destination = await vault.create(
-									`${folder.path}-merged.md`,
-									""
-								);
-
 								const files = vault
 									.getMarkdownFiles()
 									.filter(
@@ -34,6 +29,11 @@ export default class AdvancedMerge extends Plugin {
 										}
 										return 0;
 									});
+
+								const destination = await vault.create(
+									`${folder.path}-merged.md`,
+									""
+								);
 
 								files.forEach(async (file) => {
 									let contents = await vault.read(file);
