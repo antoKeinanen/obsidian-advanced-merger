@@ -18,42 +18,46 @@ export default class AdvancedMerge extends Plugin {
 
 		this.registerEvent(
 			this.app.workspace.on("file-menu", (menu, file) => {
-				if (file instanceof TFolder) {
-					const folder = file;
-					menu.addItem((item) => {
-						item.setTitle("Merge folder")
-							.setIcon("git-merge")
-							.onClick(async () => {
-								const { vault } = this.app;
-
-								const destination = await vault.create(
-									`${folder.path}-merged.md`,
-									""
-								);
-
-								const files = await Promise.all(
-									this.fileSort(
-										vault
-											.getMarkdownFiles()
-											.filter((file) => this.fileFilter(folder, file)))
-								);
-
-								files.forEach(async (file) => {
-									let contents = await vault.read(file);
-									contents = `\n# ${file.name.replace(
-										/\.md$/,
-										""
-									)}\n${contents}\n`;
-									vault.append(destination, contents);
-								});
-							});
-					});
+				if (!(file instanceof TFolder)) {
+					return;
 				}
+
+				const folder = file;
+				menu.addItem((item) => {
+					item.setTitle("Merge folder")
+						.setIcon("git-merge")
+						.onClick(async(evt) => await this.onClickCallback(folder, evt));
+				});
 			})
 		);
 
 		// This adds a settings tab so the user can configure various aspects of the plugin
 		this.addSettingTab(new AdvancedMergeSettingTab(this.app, this));
+	}
+
+	private async onClickCallback(folder: TFolder, _evt: MouseEvent | KeyboardEvent): Promise<void> {
+		const { vault } = this.app;
+
+		const destination = await vault.create(
+			`${folder.path}-merged.md`,
+			""
+		);
+
+		const files = await Promise.all(
+			this.fileSort(
+				vault
+					.getMarkdownFiles()
+					.filter((file) => this.fileFilter(folder, file)))
+		);
+
+		files.forEach(async (file) => {
+			let contents = await vault.read(file);
+			contents = `\n# ${file.name.replace(
+				/\.md$/,
+				""
+			)}\n${contents}\n`;
+			vault.append(destination, contents);
+		});
 	}
 
 	private fileFilter(folder: TFolder, file: TFile): boolean {
@@ -66,7 +70,7 @@ export default class AdvancedMerge extends Plugin {
 		return this.settings.sortAlphabetically ?
 			files.sort((a, b) => {
 				const x = a.path.toLowerCase();
-				const y = b.path.toLowerCase(); 
+				const y = b.path.toLowerCase();
 				if (x < y) {
 					return -1;
 				}
