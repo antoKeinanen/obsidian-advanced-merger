@@ -17,25 +17,23 @@ export default class AdvancedMerge extends Plugin {
 									""
 								);
 
-								const files = await Promise.all(
-									vault
-										.getMarkdownFiles()
-										.filter(
-											(file) =>
-												file.parent?.path == folder.path
-										)
-										.sort((a, b) => {
-											const x = a.path.toLowerCase();
-											const y = b.path.toLowerCase(); 
-											if (x < y) {
-												return -1;
-											}
-											if (x > y) {
-												return 1;
-											}
-											return 0;
-										})
-								);
+								const files = vault
+									.getMarkdownFiles()
+									.filter(
+										(file) =>
+											file.parent?.path == folder.path
+									)
+									.sort((a, b) => {
+										const x = a.path.toLowerCase();
+										const y = b.path.toLowerCase();
+										if (x < y) {
+											return -1;
+										}
+										if (x > y) {
+											return 1;
+										}
+										return 0;
+									});
 
 								files.forEach(async (file) => {
 									let contents = await vault.read(file);
