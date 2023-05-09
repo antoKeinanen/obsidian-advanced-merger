@@ -1,13 +1,29 @@
 import { App, Plugin, PluginSettingTab, Setting, TFile, TFolder } from "obsidian";
 
 const TRANSLATIONS: { [name: string]: { [name: string]: string } } = {
+	de: {
+		MergeFolder: "Ordner zusammenführen",
+		MergedFilesuffix: "zusammengeführt"
+	},
 	en: {
 		MergeFolder: "Merge folder",
 		MergedFilesuffix: "merged"
 	},
+	fi: {
+		MergeFolder: "Yhdistä kansio",
+		MergedFilesuffix: "yhdistetty"
+	},
+	fr: {
+		MergeFolder: "Fusionner le dossier",
+		MergedFilesuffix: "fusionné"
+	},
 	ru: {
-		MergeFolder: "Совместить заметки",
+		MergeFolder: "Объединить папку",
 		MergedFilesuffix: "совмещенный"
+	},
+	ua: {
+		MergeFolder: "Об'єднати папку",
+		MergedFilesuffix: "об'єднані"
 	}
 }
 
