@@ -8,8 +8,15 @@ Preview of the plugin. Image by
 </p>
 
 ## Installation
-Installation through obsidian plugin marketplace is not yet supported. But Advanced Merge can be downloaded manually.
+### Installation through Obsidian community marketplace
+This plugin can now be installed inside obsidian in the community plugins tab. [Link](obsidian://show-plugin?id=advanced-merger)
+1. Go to obsidian settings panel.
+2. Open community plugins tab.
+3. Browse community plugins.
+4. Search `Advanced Merger`.
+5. Install and enable the plugin.
 
+### Manual installation
 1. Download the latest release from [releases page](https://github.com/antoKeinanen/obsidian-advanced-merger/releases).
 2. Extract the zip archive.
 3. Move the 2 files (`manifest.json`, and `main.js`) to `<your obsidian vault folder>/.obsidian/plugins/obsidian-advanced-merger`
