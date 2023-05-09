@@ -1,5 +1,16 @@
 import { App, Plugin, PluginSettingTab, Setting, TFile, TFolder } from "obsidian";
 
+const TRANSLATIONS: { [name: string]: { [name: string]: string } } = {
+	en: {
+		MergeFolder: "Merge folder",
+		MergedFilesuffix: "merged"
+	},
+	ru: {
+		MergeFolder: "Совместить заметки",
+		MergedFilesuffix: "совмещенный"
+	}
+}
+
 interface AdvancedMergePluginSettings {
 	sortAlphabetically: boolean;
 	includeNestedFolders: boolean
@@ -10,21 +21,28 @@ const DEFAULT_SETTINGS: AdvancedMergePluginSettings = {
 	includeNestedFolders: false
 }
 
+const DEFAULT_LANGUAGE = "en";
+const HANDLER_LOCATION = "file-menu";
+
 export default class AdvancedMerge extends Plugin {
+	private language: string;
+
 	public settings: AdvancedMergePluginSettings;
 
 	public async onload(): Promise<void> {
+		this.language = TRANSLATIONS[navigator.language] === null ? DEFAULT_LANGUAGE : navigator.language;
+
 		await this.loadSettings();
 
 		this.registerEvent(
-			this.app.workspace.on("file-menu", (menu, file) => {
+			this.app.workspace.on(HANDLER_LOCATION, (menu, file) => {
 				if (!(file instanceof TFolder)) {
 					return;
 				}
 
 				const folder = file;
 				menu.addItem((item) => {
-					item.setTitle("Merge folder")
+					item.setTitle(TRANSLATIONS[this.language].MergeFolder)
 						.setIcon("git-merge")
 						.onClick(async(evt) => await this.onClickCallback(folder, evt));
 				});
@@ -39,7 +57,7 @@ export default class AdvancedMerge extends Plugin {
 		const { vault } = this.app;
 
 		const destination = await vault.create(
-			`${folder.path}-merged.md`,
+			`${folder.path}-${TRANSLATIONS[this.language].MergedFilesuffix}.md`,
 			""
 		);
 
