@@ -72,16 +72,14 @@ export default class AdvancedMerge extends Plugin {
 	private async onClickCallback(folder: TFolder, _evt: MouseEvent | KeyboardEvent): Promise<void> {
 		const { vault } = this.app;
 
+		const files = this.fileSort(
+			vault
+				.getMarkdownFiles()
+				.filter((file) => this.fileFilter(folder, file)));
+
 		const destination = await vault.create(
 			`${folder.path}-${TRANSLATIONS[this.language].MergedFilesuffix}.md`,
 			""
-		);
-
-		const files = await Promise.all(
-			this.fileSort(
-				vault
-					.getMarkdownFiles()
-					.filter((file) => this.fileFilter(folder, file)))
 		);
 
 		files.forEach(async (file) => {
