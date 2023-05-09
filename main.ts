@@ -3,27 +3,57 @@ import { App, Plugin, PluginSettingTab, Setting, TFile, TFolder } from "obsidian
 const TRANSLATIONS: { [name: string]: { [name: string]: string } } = {
 	de: {
 		MergeFolder: "Ordner zusammenführen",
-		MergedFilesuffix: "zusammengeführt"
+		MergedFilesuffix: "zusammengeführt",
+		Settings: "Einstellungen",
+		SettingSortAlphabetically: "Dateien alphabetisch sortieren",
+		SettingSortAlphabeticallyDescription: "Wenn aktiviert, werden die Dateien im ausgewählten Ordner alphabetisch nach ihrem vollständigen Pfad sortiert. Andernfalls werden die Dateien nach dem Erstellungsdatum sortiert (Standardverhalten).",
+		SettingIncludeNestedFolders: "Verschachtelte Ordner einbeziehen",
+		SettingIncludeNestedFoldersDescription: "Wenn aktiviert, werden Dateien in verschachtelten Ordnern zusammengeführt. Andernfalls werden nur Dateien im ausgewählten Ordner zusammengeführt (Standardverhalten)."
 	},
 	en: {
 		MergeFolder: "Merge folder",
-		MergedFilesuffix: "merged"
+		MergedFilesuffix: "merged",
+		Settings: "Settings",
+		SettingSortAlphabetically: "Sort files alphabetically",
+		SettingSortAlphabeticallyDescription: "If enabled, files in selected folder will be sorted alphabetically, according to its full path. Otherwise, files will be sorted by creation date (default behaviour).",
+		SettingIncludeNestedFolders: "Include nested folders",
+		SettingIncludeNestedFoldersDescription: "If enabled, files in nested folders will be included in merge. Otherwise, only files in selected folder will be merged (default behaviour)."
 	},
 	fi: {
 		MergeFolder: "Yhdistä kansio",
-		MergedFilesuffix: "yhdistetty"
+		MergedFilesuffix: "yhdistetty",
+		Settings: "Asetukset",
+		SettingSortAlphabetically: "Lajittele tiedostot aakkosjärjestykseen",
+		SettingSortAlphabeticallyDescription: "Jos tämä on käytössä, valitun kansion tiedostot lajitellaan aakkosjärjestyksessä sen täyden polun mukaan. Muussa tapauksessa tiedostot lajitellaan luomispäivämäärän mukaan (oletuskäyttäytyminen).",
+		SettingIncludeNestedFolders: "Sisällytä sisäkkäiset kansiot",
+		SettingIncludeNestedFoldersDescription: "Jos tämä on käytössä, sisäkkäisten kansioiden tiedostot sisällytetään yhdistämiseen. Muussa tapauksessa vain valitun kansion tiedostot yhdistetään (oletustoiminto)."
 	},
 	fr: {
 		MergeFolder: "Fusionner le dossier",
-		MergedFilesuffix: "fusionné"
+		MergedFilesuffix: "fusionné",
+		Settings: "Paramètres",
+		SettingSortAlphabetically: "Trier les fichiers par ordre alphabétique",
+		SettingSortAlphabeticallyDescription: "Si activé, les fichiers du dossier sélectionné seront triés par ordre alphabétique, en fonction de son chemin complet. Sinon, les fichiers seront triés par date de création (comportement par défaut).",
+		SettingIncludeNestedFolders: "Inclure les dossiers imbriqués",
+		SettingIncludeNestedFoldersDescription: "Si activé, les fichiers des dossiers imbriqués seront inclus dans la fusion. Sinon, seuls les fichiers du dossier sélectionné seront fusionnés (comportement par défaut)."
 	},
 	ru: {
 		MergeFolder: "Объединить папку",
-		MergedFilesuffix: "совмещенный"
+		MergedFilesuffix: "совмещенный",
+		Settings: "Настройки",
+		SettingSortAlphabetically: "Сортировать файлы по алфавиту",
+		SettingSortAlphabeticallyDescription: "Если включено, файлы в выбранной папке будут отсортированы в алфавитном порядке в соответствии с полным путем. В противном случае, файлы будут отсортированы по дате создания (поведение по умолчанию)",
+		SettingIncludeNestedFolders: "Влючать вложенные папки",
+		SettingIncludeNestedFoldersDescription: "Если включено, файлы во вложенных папках будут включены в слияние. В противном случае будут объединены только файлы в выбранной папке (поведение по умолчанию)."
 	},
 	ua: {
 		MergeFolder: "Об'єднати папку",
-		MergedFilesuffix: "об'єднані"
+		MergedFilesuffix: "об'єднані",
+		Settings: "Налаштування",
+		SettingSortAlphabetically: "Сортувати файли за алфавітом",
+		SettingSortAlphabeticallyDescription: "Якщо ввімкнено, файли у вибраній папці будуть відсортовані в алфавітному порядку відповідно до повного шляху. В іншому випадку файли будуть відсортовані за датою створення (поведінка за замовчуванням).",
+		SettingIncludeNestedFolders: "Включити вкладені папки",
+		SettingIncludeNestedFoldersDescription: "Якщо ввімкнено, файли у вкладених папках будуть включені в об’єднання. В іншому випадку буде об’єднано лише файли у вибраній папці (поведінка за замовчуванням)."
 	}
 }
 
@@ -37,11 +67,12 @@ const DEFAULT_SETTINGS: AdvancedMergePluginSettings = {
 	includeNestedFolders: false
 }
 
+const PLUGIN_NAME = "Advanced Merger";
 const DEFAULT_LANGUAGE = "en";
 const HANDLER_LOCATION = "file-menu";
 
 export default class AdvancedMerge extends Plugin {
-	private language: string;
+	public language: string;
 
 	public settings: AdvancedMergePluginSettings;
 
@@ -136,28 +167,24 @@ class AdvancedMergeSettingTab extends PluginSettingTab {
 
 		containerEl.empty();
 
-		containerEl.createEl('h2', {text: 'Advanced Merger - Settings'});
+		containerEl.createEl('h2', {text: `${PLUGIN_NAME} - ${TRANSLATIONS[this.plugin.language].Settings}`});
 
 		new Setting(containerEl)
-			.setName('Sort files alphabetically')
-			.setDesc('If enabled, files in selected folder will be sorted alphabetically, according to its full path. Otherwise, files will be sorted by creation date (default behaviour).')
+			.setName(TRANSLATIONS[this.plugin.language].SettingSortAlphabetically)
+			.setDesc(TRANSLATIONS[this.plugin.language].SettingSortAlphabeticallyDescription)
 			.addToggle(toggle => toggle
-				.setTooltip('Sort files alphabetically')
 				.setValue(this.plugin.settings.sortAlphabetically)
 				.onChange(async (value) => {
-					console.log('sort alphabetically: ' + value);
 					this.plugin.settings.sortAlphabetically = value;
 					await this.plugin.saveSettings();
 				}));
 
 		new Setting(containerEl)
-			.setName('Include files in nested folders')
-			.setDesc('If enabled, files in nested folders will be included in merge. Otherwise, only files in selected folder will be merged (default behaviour).')
+			.setName(TRANSLATIONS[this.plugin.language].SettingIncludeNestedFolders)
+			.setDesc(TRANSLATIONS[this.plugin.language].SettingIncludeNestedFoldersDescription)
 			.addToggle(toggle => toggle
-				.setTooltip('Merge files in nested folders')
 				.setValue(this.plugin.settings.includeNestedFolders)
 				.onChange(async (value) => {
-					console.log('includeNestedFolders: ' + value);
 					this.plugin.settings.includeNestedFolders = value;
 					await this.plugin.saveSettings();
 				}));
