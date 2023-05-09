@@ -24,9 +24,9 @@ const TRANSLATIONS: { [name: string]: { [name: string]: string } } = {
 		MergedFilesuffix: "yhdistetty",
 		Settings: "Asetukset",
 		SettingSortAlphabetically: "Lajittele tiedostot aakkosjärjestykseen",
-		SettingSortAlphabeticallyDescription: "Jos tämä on käytössä, valitun kansion tiedostot lajitellaan aakkosjärjestyksessä sen täyden polun mukaan. Muussa tapauksessa tiedostot lajitellaan luomispäivämäärän mukaan (oletuskäyttäytyminen).",
+		SettingSortAlphabeticallyDescription: "Jos käytössä, valitun kansion tiedostot lajitellaan aakkosjärjestyksessä sen täyden polun mukaan. Muussa tapauksessa tiedostot lajitellaan luomispäivämäärän mukaan (oletuskäyttäytyminen).",
 		SettingIncludeNestedFolders: "Sisällytä sisäkkäiset kansiot",
-		SettingIncludeNestedFoldersDescription: "Jos tämä on käytössä, sisäkkäisten kansioiden tiedostot sisällytetään yhdistämiseen. Muussa tapauksessa vain valitun kansion tiedostot yhdistetään (oletustoiminto)."
+		SettingIncludeNestedFoldersDescription: "Jos käytössä, sisäkkäisten kansioiden tiedostot yhdistetään. Muussa tapauksessa vain valitun kansion tiedostot yhdistetään (oletustoiminto)."
 	},
 	fr: {
 		MergeFolder: "Fusionner le dossier",
