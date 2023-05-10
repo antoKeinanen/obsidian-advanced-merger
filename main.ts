@@ -1,16 +1,19 @@
 import {
 	App,
+	Modal,
 	Plugin,
 	PluginSettingTab,
 	Setting,
 	TFile,
 	TFolder,
+	Vault,
 } from "obsidian";
 
 const TRANSLATIONS: { [name: string]: { [name: string]: string } } = {
 	de: {
 		MergeFolder: "Ordner zusammenführen",
 		MergedFilesuffix: "zusammengeführt",
+		OverwriteFileQuestion: "Vorhandene Datei überschreiben",
 		Settings: "Einstellungen",
 		SettingSortAlphabetically: "Dateien alphabetisch sortieren",
 		SettingSortAlphabeticallyDescription:
@@ -18,10 +21,13 @@ const TRANSLATIONS: { [name: string]: { [name: string]: string } } = {
 		SettingIncludeNestedFolders: "Verschachtelte Ordner einbeziehen",
 		SettingIncludeNestedFoldersDescription:
 			"Wenn aktiviert, werden Dateien in verschachtelten Ordnern zusammengeführt. Andernfalls werden nur Dateien im ausgewählten Ordner zusammengeführt (Standardverhalten).",
+		Yes: "Ja",
+		No: "Nein",
 	},
 	en: {
 		MergeFolder: "Merge folder",
 		MergedFilesuffix: "merged",
+		OverwriteFileQuestion: "Overwite exising file",
 		Settings: "Settings",
 		SettingSortAlphabetically: "Sort files alphabetically",
 		SettingSortAlphabeticallyDescription:
@@ -29,19 +35,27 @@ const TRANSLATIONS: { [name: string]: { [name: string]: string } } = {
 		SettingIncludeNestedFolders: "Include nested folders",
 		SettingIncludeNestedFoldersDescription:
 			"If enabled, files in nested folders will be included in merge. Otherwise, only files in selected folder will be merged (default behaviour).",
+		Yes: "Yes",
+		No: "No",
 	},
 	fi: {
 		MergeFolder: "Yhdistä kansio",
 		MergedFilesuffix: "yhdistetty",
+		OverwriteFileQuestion: "Korvaa olemassa oleva tiedosto",
 		Settings: "Asetukset",
 		SettingSortAlphabetically: "Lajittele tiedostot aakkosjärjestykseen",
-		SettingSortAlphabeticallyDescription: "Jos käytössä, valitun kansion tiedostot lajitellaan aakkosjärjestyksessä sen täyden polun mukaan. Muussa tapauksessa tiedostot lajitellaan luomispäivämäärän mukaan (oletuskäyttäytyminen).",
+		SettingSortAlphabeticallyDescription:
+			"Jos käytössä, valitun kansion tiedostot lajitellaan aakkosjärjestyksessä sen täyden polun mukaan. Muussa tapauksessa tiedostot lajitellaan luomispäivämäärän mukaan (oletuskäyttäytyminen).",
 		SettingIncludeNestedFolders: "Sisällytä sisäkkäiset kansiot",
-		SettingIncludeNestedFoldersDescription: "Jos käytössä, sisäkkäisten kansioiden tiedostot yhdistetään. Muussa tapauksessa vain valitun kansion tiedostot yhdistetään (oletustoiminto)."
+		SettingIncludeNestedFoldersDescription:
+			"Jos käytössä, sisäkkäisten kansioiden tiedostot yhdistetään. Muussa tapauksessa vain valitun kansion tiedostot yhdistetään (oletustoiminto).",
+		Yes: "Kyllä",
+		No: "Ei",
 	},
 	fr: {
 		MergeFolder: "Fusionner le dossier",
 		MergedFilesuffix: "fusionné",
+		OverwriteFileQuestion: "Remplacer le fichier existant",
 		Settings: "Paramètres",
 		SettingSortAlphabetically: "Trier les fichiers par ordre alphabétique",
 		SettingSortAlphabeticallyDescription:
@@ -49,10 +63,13 @@ const TRANSLATIONS: { [name: string]: { [name: string]: string } } = {
 		SettingIncludeNestedFolders: "Inclure les dossiers imbriqués",
 		SettingIncludeNestedFoldersDescription:
 			"Si activé, les fichiers des dossiers imbriqués seront inclus dans la fusion. Sinon, seuls les fichiers du dossier sélectionné seront fusionnés (comportement par défaut).",
+		Yes: "Oui",
+		No: "Non",
 	},
 	ru: {
 		MergeFolder: "Объединить папку",
 		MergedFilesuffix: "совмещенный",
+		OverwriteFileQuestion: "Перезаписать существующий файл",
 		Settings: "Настройки",
 		SettingSortAlphabetically: "Сортировать файлы по алфавиту",
 		SettingSortAlphabeticallyDescription:
@@ -60,10 +77,13 @@ const TRANSLATIONS: { [name: string]: { [name: string]: string } } = {
 		SettingIncludeNestedFolders: "Влючать вложенные папки",
 		SettingIncludeNestedFoldersDescription:
 			"Если включено, файлы во вложенных папках будут включены в слияние. В противном случае будут объединены только файлы в выбранной папке (поведение по умолчанию).",
+		Yes: "Да",
+		No: "Нет",
 	},
 	ua: {
 		MergeFolder: "Об'єднати папку",
 		MergedFilesuffix: "об'єднані",
+		OverwriteFileQuestion: "Перезаписати існуючий файл",
 		Settings: "Налаштування",
 		SettingSortAlphabetically: "Сортувати файли за алфавітом",
 		SettingSortAlphabeticallyDescription:
@@ -71,6 +91,8 @@ const TRANSLATIONS: { [name: string]: { [name: string]: string } } = {
 		SettingIncludeNestedFolders: "Включити вкладені папки",
 		SettingIncludeNestedFoldersDescription:
 			"Якщо ввімкнено, файли у вкладених папках будуть включені в об’єднання. В іншому випадку буде об’єднано лише файли у вибраній папці (поведінка за замовчуванням).",
+		Yes: "Так",
+		No: "Ні",
 	},
 };
 
@@ -162,23 +184,66 @@ export default class AdvancedMerge extends Plugin {
 				.filter((file) => this.fileFilter(folder, file))
 		);
 
-		const destination = await vault.create(
-			`${folder.path}-${TRANSLATIONS[this.language].MergedFilesuffix}.md`,
-			""
-		);
+		const mergedFileName = `${folder.path}-${
+			TRANSLATIONS[this.language].MergedFilesuffix
+		}.md`;
+		const fileExists = await vault.adapter.exists(mergedFileName, false);
+		if (fileExists) {
+			new AdvancedMergeOverwriteFileModal(
+				this.app,
+				this.language,
+				mergedFileName,
+				async (deleteFile) => {
+					if (!deleteFile) {
+						console.info(
+							`file "${mergedFileName}" already exists, but user cancelled deleting..`
+						);
+						return;
+					}
+
+					console.info(
+						`file "${mergedFileName}" already exists, deleting..`
+					);
+					await vault.adapter.remove(mergedFileName);
+
+					await this.mergeFiles(vault, files, mergedFileName);
+				}
+			).open();
+			return;
+		}
+		await this.mergeFiles(vault, files, mergedFileName);
+	}
+
+	/**
+	 * Merges input files to single output file.
+	 * @param {Vault} vault - Current vault.
+	 * @param {Array<TFile>} files - Files, to be included.
+	 * @param {string} mergedFileName - Output file name.
+	 */
+	private async mergeFiles(
+		vault: Vault,
+		files: Array<TFile>,
+		mergedFileName: string
+	): Promise<void> {
+		const destination = await vault.create(mergedFileName, "");
 
 		files.forEach(async (file: TFile, index: number) => {
 			let contents = await vault.read(file);
 			const fileSectionName = file.name.replace(/\.md$/, "");
 			// For the first file in a row, we shouldnt add new line
-			contents = `${index === 0 ? "" : NEW_LINE_CHAR}# ${fileSectionName}${DOUBLE_NEW_LINE_CHAR}${contents}`;
+			contents = `${
+				index === 0 ? "" : NEW_LINE_CHAR
+			}# ${fileSectionName}${DOUBLE_NEW_LINE_CHAR}${contents}${NEW_LINE_CHAR}`;
+			console.info(
+				`Adding file "${file.name}" as section "${fileSectionName}" into file "${mergedFileName}"..`
+			);
 			vault.append(destination, contents);
 		});
 	}
 
 	/**
 	 * Applies filtering to input file.
-	 * @param {TFolder} folder - Selected foldser.
+	 * @param {TFolder} folder - Selected folder.
 	 * @param {TFile} file - Files, to be included.
 	 * @returns {boolean} Provided file passses folder check.
 	 */
@@ -288,5 +353,66 @@ class AdvancedMergeSettingTab extends PluginSettingTab {
 						await this.plugin.saveSettings();
 					})
 			);
+	}
+}
+
+class AdvancedMergeOverwriteFileModal extends Modal {
+	private language: string;
+	private existingFileName: string;
+	private onSubmitHandler: (result: boolean) => void;
+
+	/**
+	 * Represents an "Overwrite file?" dialog.
+	 * @constructor
+	 * @param {App} app - The `Obsidian` application object.
+	 * @param {string} language - Application language.
+	 * @param {string} existingFileName - Existing file name.
+	 * @param handler - Modal callback handler.
+	 */
+	constructor(
+		app: App,
+		language: string,
+		existingFileName: string,
+		handler: (result: boolean) => void
+	) {
+		super(app);
+		this.language = language;
+		this.existingFileName = existingFileName;
+		this.onSubmitHandler = handler;
+	}
+
+	public onOpen() {
+		const { contentEl } = this;
+
+		contentEl.createEl("h3", {
+			text: `${TRANSLATIONS[this.language].OverwriteFileQuestion} "${
+				this.existingFileName
+			}"?`,
+		});
+
+		new Setting(contentEl)
+			.addButton((btn) =>
+				btn
+					.setButtonText(TRANSLATIONS[this.language].No)
+					.setCta()
+					.onClick(() => {
+						this.close();
+						this.onSubmitHandler(false);
+					})
+			)
+			.addButton((btn) =>
+				btn
+					.setButtonText(TRANSLATIONS[this.language].Yes)
+					.setCta()
+					.onClick(() => {
+						this.close();
+						this.onSubmitHandler(true);
+					})
+			);
+	}
+
+	public onClose() {
+		const { contentEl } = this;
+		contentEl.empty();
 	}
 }
