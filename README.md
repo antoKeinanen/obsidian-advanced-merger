@@ -31,7 +31,7 @@ To build and test this repository it is advised to create a new vault. Clone thi
 All contributions are welcome, but before making anything big please consider starting a discussion in the issues tab.
 
 # Code of conduct
-- Make sure your code is formatted.
+- Make sure your code is formatted with the `npm/yarn run format` script.
 - Use angular commit message style. More info [here](https://github.com/antoKeinanen/obsidian-advanced-merger#commit-message-format).
 ## Commit message format
 *This specification is inspired by and supersedes the [AngularJS commit message format.](https://github.com/angular/angular/blob/main/CONTRIBUTING.md#commit)*
