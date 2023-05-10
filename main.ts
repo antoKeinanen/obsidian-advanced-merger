@@ -88,6 +88,11 @@ const DEFAULT_SETTINGS: AdvancedMergePluginSettings = {
     @type {string}
     @default
 */
+const ICON_NAME = "git-merge";
+/** @constant
+    @type {string}
+    @default
+*/
 const PLUGIN_NAME = "Advanced Merger";
 /** @constant
     @type {string}
@@ -99,6 +104,16 @@ const DEFAULT_LANGUAGE = "en";
     @default
 */
 const HANDLER_LOCATION = "file-menu";
+/** @constant
+    @type {string}
+    @default
+*/
+const NEW_LINE_CHAR = "\n";
+/** @constant
+    @type {string}
+    @default
+*/
+const DOUBLE_NEW_LINE_CHAR = "\n\n";
 
 export default class AdvancedMerge extends Plugin {
 	public language: string;
@@ -122,7 +137,7 @@ export default class AdvancedMerge extends Plugin {
 				const folder = file;
 				menu.addItem((item) => {
 					item.setTitle(TRANSLATIONS[this.language].MergeFolder)
-						.setIcon("git-merge")
+						.setIcon(ICON_NAME)
 						.onClick(
 							async (evt) =>
 								await this.onClickCallback(folder, evt)
@@ -152,9 +167,11 @@ export default class AdvancedMerge extends Plugin {
 			""
 		);
 
-		files.forEach(async (file) => {
+		files.forEach(async (file: TFile, index: number) => {
 			let contents = await vault.read(file);
-			contents = `\n# ${file.name.replace(/\.md$/, "")}\n${contents}\n`;
+			const fileSectionName = file.name.replace(/\.md$/, "");
+			// For the first file in a row, we shouldnt add new line
+			contents = `${index === 0 ? "" : NEW_LINE_CHAR}# ${fileSectionName}${DOUBLE_NEW_LINE_CHAR}${contents}`;
 			vault.append(destination, contents);
 		});
 	}
