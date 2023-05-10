@@ -44,9 +44,9 @@ All commit messages must conform to this format:
 <body>
 ```
 ## Commit Header
-The type field is always required. A summary is optional when bumping the version. Every commit should only contain one type.
+The type field is always required. A summary is optional when bumping the version. If the commit is related to issue please refer to it. Every commit should only contain one type.
 ```
-<type>: <short summary>
+<type>(<issue-id>): <short summary>
   │           │
   │           └─⫸ Summary in the present tense. Not capitalized. No period at the end.
   │
@@ -54,6 +54,7 @@ The type field is always required. A summary is optional when bumping the versio
   └─⫸ Commit Type: build|docs|feat|fix|perf|refactor|test
 ```
 ### Type
+**Example**: `fix(#123): fix a bug where XYZ`, `bump-version`, `feat(#123): add a feature that XYZ`
 Must be one of the following:
 - build: Changes that affect the build system or external dependencies
 - docs: Documentation only changes
@@ -67,6 +68,11 @@ Use the summary field to provide a succinct description of the change:
 - use the imperative, present tense: "change" not "changed" nor "changes"
 - don't capitalize the first letter
 - no dot (.) at the end
+
+## Message body
+- Optional but recommended
+- Just as in <subject> use imperative, present tense: “change” not “changed” nor “changes”
+
 
 
 # Support
