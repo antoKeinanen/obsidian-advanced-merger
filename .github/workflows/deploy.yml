@@ -4,6 +4,8 @@ on: workflow_dispatch
 jobs:
     deploy:
         runs-on: ubuntu-latest
+        permissions:
+            contents: write
         steps:
             - uses: actions/checkout@master
             - uses: actions/setup-node@master
