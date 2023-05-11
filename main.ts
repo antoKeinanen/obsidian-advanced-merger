@@ -143,10 +143,9 @@ export default class AdvancedMerge extends Plugin {
 	public settings: AdvancedMergePluginSettings;
 
 	public async onload(): Promise<void> {
-		this.language =
-			TRANSLATIONS[navigator.language] == null
-				? DEFAULT_LANGUAGE
-				: navigator.language;
+		this.language = !Object.keys(TRANSLATIONS).contains(navigator.language)
+			? DEFAULT_LANGUAGE
+			: navigator.language;
 
 		await this.loadSettings();
 
@@ -270,7 +269,7 @@ export default class AdvancedMerge extends Plugin {
 						return 1;
 					}
 					return 0;
-			  })
+				})
 			: files.reverse();
 	}
 
