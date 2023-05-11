@@ -343,6 +343,7 @@ export default class AdvancedMerge extends Plugin {
 
 class AdvancedMergeSettingTab extends PluginSettingTab {
 	private plugin: AdvancedMerge;
+	private includeFolderAsSectionSetting: Setting;
 
 	/**
 	 * Represents a settings tab.
@@ -398,12 +399,23 @@ class AdvancedMergeSettingTab extends PluginSettingTab {
 					.setValue(this.plugin.settings.includeNestedFolders)
 					.onChange(async (value) => {
 						this.plugin.settings.includeNestedFolders = value;
+						this.plugin.settings.includeFoldersAsSections = value === false ? value : this.plugin.settings.includeFoldersAsSections;
 						await this.plugin.saveSettings();
+						this.showIncludeFolderAsSectionSetting(containerEl);
 					})
 			);
 
+		this.showIncludeFolderAsSectionSetting(containerEl);
+	}
+
+	private showIncludeFolderAsSectionSetting(containerEl: HTMLElement): void {
+		if (!this.plugin.settings.includeNestedFolders) {
+			this.includeFolderAsSectionSetting?.settingEl?.remove();
+			return;
+		}
+
 		// Add "include folders as sections" toggle in settings
-		new Setting(containerEl)
+		this.includeFolderAsSectionSetting = new Setting(containerEl)
 			.setName(
 				TRANSLATIONS[this.plugin.language].SettingIncludeFoldersAsSections
 			)
