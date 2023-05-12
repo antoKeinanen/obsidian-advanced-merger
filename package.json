@@ -1,6 +1,6 @@
 {
 	"name": "obsidian-advanced-merger",
-	"version": "1.3.0",
+	"version": "1.4.0",
 	"description": "Merge a folder of notes for easier export. This plugin is designed for Obsidian (https://obsidian.md).",
 	"homepage": "https://github.com/antoKeinanen/obsidian-advanced-merger",
 	"contributors": [

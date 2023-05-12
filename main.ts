@@ -4,12 +4,28 @@ import {
 	Plugin,
 	PluginSettingTab,
 	Setting,
+	TAbstractFile,
 	TFile,
 	TFolder,
 	Vault,
 } from "obsidian";
 
-const TRANSLATIONS: { [name: string]: { [name: string]: string } } = {
+interface Translation {
+	MergeFolder: string;
+	MergedFilesuffix: string;
+	OverwriteFileQuestion: string;
+	Settings: string;
+	SettingSortAlphabetically: string;
+	SettingSortAlphabeticallyDescription: string;
+	SettingIncludeNestedFolders: string;
+	SettingIncludeNestedFoldersDescription: string;
+	SettingIncludeFoldersAsSections: string;
+	SettingIncludeFoldersAsSectionsDescription: string;
+	Yes: string;
+	No: string;
+}
+
+const TRANSLATIONS: { [name: string]: Translation } = {
 	de: {
 		MergeFolder: "Ordner zusammenführen",
 		MergedFilesuffix: "zusammengeführt",
@@ -21,6 +37,9 @@ const TRANSLATIONS: { [name: string]: { [name: string]: string } } = {
 		SettingIncludeNestedFolders: "Verschachtelte Ordner einbeziehen",
 		SettingIncludeNestedFoldersDescription:
 			"Wenn aktiviert, werden Dateien in verschachtelten Ordnern zusammengeführt. Andernfalls werden nur Dateien im ausgewählten Ordner zusammengeführt (Standardverhalten).",
+		SettingIncludeFoldersAsSections: "Ordner als Abschnitte einbeziehen",
+		SettingIncludeFoldersAsSectionsDescription:
+			"Ordner werden als benannte Abschnitte in die Ausgabedatei eingefügt.",
 		Yes: "Ja",
 		No: "Nein",
 	},
@@ -35,6 +54,9 @@ const TRANSLATIONS: { [name: string]: { [name: string]: string } } = {
 		SettingIncludeNestedFolders: "Include nested folders",
 		SettingIncludeNestedFoldersDescription:
 			"If enabled, files in nested folders will be included in merge. Otherwise, only files in selected folder will be merged (default behaviour).",
+		SettingIncludeFoldersAsSections: "Include folders as sections",
+		SettingIncludeFoldersAsSectionsDescription:
+			"Folders will be included as named sections into output file.",
 		Yes: "Yes",
 		No: "No",
 	},
@@ -49,6 +71,9 @@ const TRANSLATIONS: { [name: string]: { [name: string]: string } } = {
 		SettingIncludeNestedFolders: "Sisällytä sisäkkäiset kansiot",
 		SettingIncludeNestedFoldersDescription:
 			"Jos käytössä, sisäkkäisten kansioiden tiedostot yhdistetään. Muussa tapauksessa vain valitun kansion tiedostot yhdistetään (oletustoiminto).",
+		SettingIncludeFoldersAsSections: "Sisällytä kansiot osioihin",
+		SettingIncludeFoldersAsSectionsDescription:
+			"Kansiot sisällytetään nimettyinä osina tulostiedostoon.",
 		Yes: "Kyllä",
 		No: "Ei",
 	},
@@ -63,6 +88,10 @@ const TRANSLATIONS: { [name: string]: { [name: string]: string } } = {
 		SettingIncludeNestedFolders: "Inclure les dossiers imbriqués",
 		SettingIncludeNestedFoldersDescription:
 			"Si activé, les fichiers des dossiers imbriqués seront inclus dans la fusion. Sinon, seuls les fichiers du dossier sélectionné seront fusionnés (comportement par défaut).",
+		SettingIncludeFoldersAsSections:
+			"Inclure les dossiers en tant que sections",
+		SettingIncludeFoldersAsSectionsDescription:
+			"Les dossiers seront inclus en tant que sections nommées dans le fichier de sortie.",
 		Yes: "Oui",
 		No: "Non",
 	},
@@ -77,6 +106,9 @@ const TRANSLATIONS: { [name: string]: { [name: string]: string } } = {
 		SettingIncludeNestedFolders: "Влючать вложенные папки",
 		SettingIncludeNestedFoldersDescription:
 			"Если включено, файлы во вложенных папках будут включены в слияние. В противном случае будут объединены только файлы в выбранной папке (поведение по умолчанию).",
+		SettingIncludeFoldersAsSections: "Включать папки как разделы",
+		SettingIncludeFoldersAsSectionsDescription:
+			"Папки будут включены в выходной файл в качестве разделов.",
 		Yes: "Да",
 		No: "Нет",
 	},
@@ -91,6 +123,9 @@ const TRANSLATIONS: { [name: string]: { [name: string]: string } } = {
 		SettingIncludeNestedFolders: "Включити вкладені папки",
 		SettingIncludeNestedFoldersDescription:
 			"Якщо ввімкнено, файли у вкладених папках будуть включені в об’єднання. В іншому випадку буде об’єднано лише файли у вибраній папці (поведінка за замовчуванням).",
+		SettingIncludeFoldersAsSections: "Включити папки як розділи",
+		SettingIncludeFoldersAsSectionsDescription:
+			"Папки будуть включені як іменовані розділи у вихідний файл.",
 		Yes: "Так",
 		No: "Ні",
 	},
@@ -99,11 +134,13 @@ const TRANSLATIONS: { [name: string]: { [name: string]: string } } = {
 interface AdvancedMergePluginSettings {
 	sortAlphabetically: boolean;
 	includeNestedFolders: boolean;
+	includeFoldersAsSections: boolean;
 }
 
 const DEFAULT_SETTINGS: AdvancedMergePluginSettings = {
 	sortAlphabetically: false,
 	includeNestedFolders: false,
+	includeFoldersAsSections: false,
 };
 
 /** @constant
@@ -136,18 +173,23 @@ const NEW_LINE_CHAR = "\n";
     @default
 */
 const DOUBLE_NEW_LINE_CHAR = "\n\n";
+/** @constant
+    @type {string}
+    @default
+*/
+const SECTION_CHAR = "#";
+/** @constant
+    @type {string}
+    @default
+*/
+const MARKDOWN_FILE_EXTENSION = "md";
 
 export default class AdvancedMerge extends Plugin {
-	public language: string;
-
+	public translation: AdvancedMergeTranslation;
 	public settings: AdvancedMergePluginSettings;
 
 	public async onload(): Promise<void> {
-		this.language =
-			TRANSLATIONS[navigator.language] == null
-				? DEFAULT_LANGUAGE
-				: navigator.language;
-
+		this.translation = new AdvancedMergeTranslation();
 		await this.loadSettings();
 
 		this.registerEvent(
@@ -158,7 +200,7 @@ export default class AdvancedMerge extends Plugin {
 
 				const folder = file;
 				menu.addItem((item) => {
-					item.setTitle(TRANSLATIONS[this.language].MergeFolder)
+					item.setTitle(this.translation.get().MergeFolder)
 						.setIcon(ICON_NAME)
 						.onClick(
 							async (evt) =>
@@ -178,67 +220,100 @@ export default class AdvancedMerge extends Plugin {
 	): Promise<void> {
 		const { vault } = this.app;
 
-		const files = this.fileSort(
-			vault
-				.getMarkdownFiles()
-				.filter((file) => this.fileFilter(folder, file))
+		const documentEntries: Array<TAbstractFile> = [];
+		Vault.recurseChildren(folder, (folderOrFile: TAbstractFile) => {
+			// For merging we are including only *.md files
+			if (
+				folderOrFile instanceof TFile &&
+				folderOrFile.extension == MARKDOWN_FILE_EXTENSION
+			) {
+				console.log(`Found a file: ${folderOrFile.name}`);
+				documentEntries.push(folderOrFile);
+			} else if (
+				folderOrFile instanceof TFolder &&
+				this.settings.includeFoldersAsSections
+			) {
+				console.log(`Found a folder: ${folderOrFile.name}`);
+				documentEntries.push(folderOrFile);
+			}
+		});
+
+		const entries = this.sortNotes(
+			documentEntries.filter((entry) => this.filterNotes(folder, entry))
 		);
 
-		const mergedFileName = `${folder.path}-${
-			TRANSLATIONS[this.language].MergedFilesuffix
+		const outputFileName = `${folder.path}-${
+			this.translation.get().MergedFilesuffix
 		}.md`;
-		const fileExists = await vault.adapter.exists(mergedFileName, false);
+		const fileExists = await vault.adapter.exists(outputFileName, false);
 		if (fileExists) {
 			new AdvancedMergeOverwriteFileModal(
 				this.app,
-				this.language,
-				mergedFileName,
+				this.translation,
+				outputFileName,
 				async (deleteFile) => {
 					if (!deleteFile) {
 						console.info(
-							`file "${mergedFileName}" already exists, but user cancelled deleting..`
+							`file "${outputFileName}" already exists, but user cancelled deleting..`
 						);
 						return;
 					}
 
 					console.info(
-						`file "${mergedFileName}" already exists, deleting..`
+						`file "${outputFileName}" already exists, deleting..`
 					);
-					await vault.adapter.remove(mergedFileName);
+					await vault.adapter.remove(outputFileName);
 
-					await this.mergeFiles(vault, files, mergedFileName);
+					await this.mergeNotes(vault, entries, outputFileName);
 				}
 			).open();
 			return;
 		}
-		await this.mergeFiles(vault, files, mergedFileName);
+		await this.mergeNotes(vault, entries, outputFileName);
 	}
 
 	/**
-	 * Merges input files to single output file.
+	 * Merges input notes to single output file.
 	 * @param {Vault} vault - Current vault.
-	 * @param {Array<TFile>} files - Files, to be included.
-	 * @param {string} mergedFileName - Output file name.
+	 * @param {Array<TAbstractFile>} entries - Files and folders, to be included.
+	 * @param {string} outputFileName - Output file name.
 	 */
-	private async mergeFiles(
+	private async mergeNotes(
 		vault: Vault,
-		files: Array<TFile>,
-		mergedFileName: string
+		entries: Array<TAbstractFile>,
+		outputFileName: string
 	): Promise<void> {
-		const destination = await vault.create(mergedFileName, "");
+		const outputFile = await vault.create(outputFileName, "");
 
-		files.forEach(async (file: TFile, index: number) => {
-			let contents = await vault.read(file);
-			const fileSectionName = file.name.replace(/\.md$/, "");
-			// For the first file in a row, we shouldnt add new line
-			contents = `${
-				index === 0 ? "" : NEW_LINE_CHAR
-			}# ${fileSectionName}${DOUBLE_NEW_LINE_CHAR}${contents}${NEW_LINE_CHAR}`;
-			console.info(
-				`Adding file "${file.name}" as section "${fileSectionName}" into file "${mergedFileName}"..`
-			);
-			vault.append(destination, contents);
-		});
+		for (let index = 0; index < entries.length; index++) {
+			const folderOrFile: TAbstractFile = entries[index];
+			const sectionLevel = (folderOrFile.path.match(/\//g) || []).length;
+
+			let sectionContents = `${index === 0 ? "" : NEW_LINE_CHAR}`;
+			const lastEntry = index === entries.length - 1;
+
+			if (folderOrFile instanceof TFile) {
+				sectionContents += await vault.cachedRead(folderOrFile);
+				const fileSectionName = folderOrFile.name.replace(/\.md$/, "");
+				// For the first file in a row, we shouldnt add new line
+				sectionContents = `${SECTION_CHAR.repeat(
+					sectionLevel
+				)} ${fileSectionName}${DOUBLE_NEW_LINE_CHAR}${sectionContents}${
+					lastEntry ? "" : DOUBLE_NEW_LINE_CHAR
+				}`;
+				console.info(
+					`Adding file "${folderOrFile.name}" as section "${fileSectionName}" into file "${outputFileName}"..`
+				);
+			} else if (folderOrFile instanceof TFolder) {
+				sectionContents += `${SECTION_CHAR.repeat(sectionLevel)} ${
+					folderOrFile.name
+				}${DOUBLE_NEW_LINE_CHAR}`;
+				console.info(
+					`Adding folder "${folderOrFile.name}" as section "${sectionContents}" into file "${outputFileName}"..`
+				);
+			}
+			vault.append(outputFile, sectionContents);
+		}
 	}
 
 	/**
@@ -247,7 +322,7 @@ export default class AdvancedMerge extends Plugin {
 	 * @param {TFile} file - Files, to be included.
 	 * @returns {boolean} Provided file passses folder check.
 	 */
-	private fileFilter(folder: TFolder, file: TFile): boolean {
+	private filterNotes(folder: TFolder, file: TAbstractFile): boolean {
 		return this.settings.includeNestedFolders
 			? !!file.parent?.path.startsWith(folder.path)
 			: file.parent?.path == folder.path;
@@ -258,7 +333,7 @@ export default class AdvancedMerge extends Plugin {
 	 * @param {Array<TFile>} files - The files array, to be sorted.
 	 * @returns {Array<TFile>} Sorted files array.
 	 */
-	private fileSort(files: Array<TFile>): Array<TFile> {
+	private sortNotes(files: Array<TAbstractFile>): Array<TAbstractFile> {
 		return this.settings.sortAlphabetically
 			? files.sort((a, b) => {
 					const x = a.path.toLowerCase();
@@ -270,7 +345,7 @@ export default class AdvancedMerge extends Plugin {
 						return 1;
 					}
 					return 0;
-			  })
+				})
 			: files.reverse();
 	}
 
@@ -295,6 +370,7 @@ export default class AdvancedMerge extends Plugin {
 
 class AdvancedMergeSettingTab extends PluginSettingTab {
 	private plugin: AdvancedMerge;
+	private includeFolderAsSectionSetting: Setting;
 
 	/**
 	 * Represents a settings tab.
@@ -313,18 +389,14 @@ class AdvancedMergeSettingTab extends PluginSettingTab {
 		containerEl.empty();
 
 		containerEl.createEl("h2", {
-			text: `${PLUGIN_NAME} - ${
-				TRANSLATIONS[this.plugin.language].Settings
-			}`,
+			text: `${PLUGIN_NAME} - ${this.plugin.translation.get().Settings}`,
 		});
 
 		// Add "sort alphabetically" toggle in settings
 		new Setting(containerEl)
-			.setName(
-				TRANSLATIONS[this.plugin.language].SettingSortAlphabetically
-			)
+			.setName(this.plugin.translation.get().SettingSortAlphabetically)
 			.setDesc(
-				TRANSLATIONS[this.plugin.language]
+				this.plugin.translation.get()
 					.SettingSortAlphabeticallyDescription
 			)
 			.addToggle((toggle) =>
@@ -338,11 +410,9 @@ class AdvancedMergeSettingTab extends PluginSettingTab {
 
 		// Add "include nested folders" toggle in settings
 		new Setting(containerEl)
-			.setName(
-				TRANSLATIONS[this.plugin.language].SettingIncludeNestedFolders
-			)
+			.setName(this.plugin.translation.get().SettingIncludeNestedFolders)
 			.setDesc(
-				TRANSLATIONS[this.plugin.language]
+				this.plugin.translation.get()
 					.SettingIncludeNestedFoldersDescription
 			)
 			.addToggle((toggle) =>
@@ -350,6 +420,38 @@ class AdvancedMergeSettingTab extends PluginSettingTab {
 					.setValue(this.plugin.settings.includeNestedFolders)
 					.onChange(async (value) => {
 						this.plugin.settings.includeNestedFolders = value;
+						this.plugin.settings.includeFoldersAsSections =
+							value === false
+								? value
+								: this.plugin.settings.includeFoldersAsSections;
+						await this.plugin.saveSettings();
+						this.showIncludeFolderAsSectionSetting(containerEl);
+					})
+			);
+
+		this.showIncludeFolderAsSectionSetting(containerEl);
+	}
+
+	private showIncludeFolderAsSectionSetting(containerEl: HTMLElement): void {
+		if (!this.plugin.settings.includeNestedFolders) {
+			this.includeFolderAsSectionSetting?.settingEl?.remove();
+			return;
+		}
+
+		// Add "include folders as sections" toggle in settings
+		this.includeFolderAsSectionSetting = new Setting(containerEl)
+			.setName(
+				this.plugin.translation.get().SettingIncludeFoldersAsSections
+			)
+			.setDesc(
+				this.plugin.translation.get()
+					.SettingIncludeFoldersAsSectionsDescription
+			)
+			.addToggle((toggle) =>
+				toggle
+					.setValue(this.plugin.settings.includeFoldersAsSections)
+					.onChange(async (value) => {
+						this.plugin.settings.includeFoldersAsSections = value;
 						await this.plugin.saveSettings();
 					})
 			);
@@ -357,7 +459,7 @@ class AdvancedMergeSettingTab extends PluginSettingTab {
 }
 
 class AdvancedMergeOverwriteFileModal extends Modal {
-	private language: string;
+	private tranlation: AdvancedMergeTranslation;
 	private existingFileName: string;
 	private onSubmitHandler: (result: boolean) => void;
 
@@ -365,27 +467,30 @@ class AdvancedMergeOverwriteFileModal extends Modal {
 	 * Represents an "Overwrite file?" dialog.
 	 * @constructor
 	 * @param {App} app - The `Obsidian` application object.
-	 * @param {string} language - Application language.
+	 * @param {AdvancedMergeTranslation} translation - Plugin translation.
 	 * @param {string} existingFileName - Existing file name.
 	 * @param handler - Modal callback handler.
 	 */
 	constructor(
 		app: App,
-		language: string,
+		translation: AdvancedMergeTranslation,
 		existingFileName: string,
 		handler: (result: boolean) => void
 	) {
 		super(app);
-		this.language = language;
+		this.tranlation = translation;
 		this.existingFileName = existingFileName;
 		this.onSubmitHandler = handler;
 	}
 
-	public onOpen() {
+	/**
+	 * @inheritdoc
+	 */
+	public onOpen(): void {
 		const { contentEl } = this;
 
 		contentEl.createEl("h3", {
-			text: `${TRANSLATIONS[this.language].OverwriteFileQuestion} "${
+			text: `${this.tranlation.get().OverwriteFileQuestion} "${
 				this.existingFileName
 			}"?`,
 		});
@@ -393,7 +498,7 @@ class AdvancedMergeOverwriteFileModal extends Modal {
 		new Setting(contentEl)
 			.addButton((btn) =>
 				btn
-					.setButtonText(TRANSLATIONS[this.language].No)
+					.setButtonText(this.tranlation.get().No)
 					.setCta()
 					.onClick(() => {
 						this.close();
@@ -402,7 +507,7 @@ class AdvancedMergeOverwriteFileModal extends Modal {
 			)
 			.addButton((btn) =>
 				btn
-					.setButtonText(TRANSLATIONS[this.language].Yes)
+					.setButtonText(this.tranlation.get().Yes)
 					.setCta()
 					.onClick(() => {
 						this.close();
@@ -411,8 +516,33 @@ class AdvancedMergeOverwriteFileModal extends Modal {
 			);
 	}
 
-	public onClose() {
+	/**
+	 * @inheritdoc
+	 */
+	public onClose(): void {
 		const { contentEl } = this;
 		contentEl.empty();
+	}
+}
+
+class AdvancedMergeTranslation {
+	private language: string;
+
+	/**
+	 * Represents a plugin translation.
+	 * @constructor
+	 */
+	constructor() {
+		this.language = !Object.keys(TRANSLATIONS).contains(navigator.language)
+			? DEFAULT_LANGUAGE
+			: navigator.language;
+	}
+
+	/**
+	 * Gets translation object for current language.
+	 * @returns {Translation} Current translation object.
+	 */
+	public get(): Translation {
+		return TRANSLATIONS[this.language];
 	}
 }
