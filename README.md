@@ -42,6 +42,7 @@ All contributions are welcome, but before making anything big please consider st
 
 -   Make sure your code is formatted with the `npm/yarn run format` script.
 -   Use angular commit message style. More info [here](https://github.com/antoKeinanen/obsidian-advanced-merger#commit-message-format).
+-   Please _DO NOT_ modify `manifest.json` as it breaks the plugin download system. For beta release use [BRAT](https://tfthacker.com/Obsidian+Plugins+by+TfTHacker/BRAT+-+Beta+Reviewer's+Auto-update+Tool/Quick+guide+for+using+BRAT#Testing+Plugins) and version bump `manifest-beta.json`.
 
 ## Commit message format
 
