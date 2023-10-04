@@ -15,8 +15,11 @@ interface Translation {
 	MergedFilesuffix: string;
 	OverwriteFileQuestion: string;
 	Settings: string;
+	SettingSortMode: string;
+	SettingSortModeDescription: string;
 	SettingSortAlphabetically: string;
-	SettingSortAlphabeticallyDescription: string;
+	SettingSortDateCreated: string;
+	SettingSortLogical: string;
 	SettingIncludeNestedFolders: string;
 	SettingIncludeNestedFoldersDescription: string;
 	SettingIncludeFoldersAsSections: string;
@@ -31,114 +34,123 @@ const TRANSLATIONS: { [name: string]: Translation } = {
 		MergedFilesuffix: "zusammengeführt",
 		OverwriteFileQuestion: "Vorhandene Datei überschreiben",
 		Settings: "Einstellungen",
-		SettingSortAlphabetically: "Dateien alphabetisch sortieren",
-		SettingSortAlphabeticallyDescription:
-			"Wenn aktiviert, werden die Dateien im ausgewählten Ordner alphabetisch nach ihrem vollständigen Pfad sortiert. Andernfalls werden die Dateien nach dem Erstellungsdatum sortiert (Standardverhalten).",
 		SettingIncludeNestedFolders: "Verschachtelte Ordner einbeziehen",
-		SettingIncludeNestedFoldersDescription:
-			"Wenn aktiviert, werden Dateien in verschachtelten Ordnern zusammengeführt. Andernfalls werden nur Dateien im ausgewählten Ordner zusammengeführt (Standardverhalten).",
+		SettingIncludeNestedFoldersDescription: "Wenn aktiviert, werden Dateien in verschachtelten Ordnern zusammengeführt. Andernfalls werden nur Dateien im ausgewählten Ordner zusammengeführt (Standardverhalten).",
 		SettingIncludeFoldersAsSections: "Ordner als Abschnitte einbeziehen",
-		SettingIncludeFoldersAsSectionsDescription:
-			"Ordner werden als benannte Abschnitte in die Ausgabedatei eingefügt.",
+		SettingIncludeFoldersAsSectionsDescription: "Ordner werden als benannte Abschnitte in die Ausgabedatei eingefügt.",
 		Yes: "Ja",
 		No: "Nein",
+		SettingSortMode: "Sortiermodus",
+		SettingSortModeDescription: "Wählen Sie den Sortiermodus für das Zusammenführen von Notizen.",
+		SettingSortDateCreated: "Erstellungsdatum",
+		SettingSortLogical: "Logisch",
+		SettingSortAlphabetically: "Alphabetisch"
 	},
 	en: {
 		MergeFolder: "Merge folder",
 		MergedFilesuffix: "merged",
 		OverwriteFileQuestion: "Overwite exising file",
 		Settings: "Settings",
-		SettingSortAlphabetically: "Sort files alphabetically",
-		SettingSortAlphabeticallyDescription:
-			"If enabled, files in selected folder will be sorted alphabetically, according to its full path. Otherwise, files will be sorted by creation date (default behaviour).",
 		SettingIncludeNestedFolders: "Include nested folders",
-		SettingIncludeNestedFoldersDescription:
-			"If enabled, files in nested folders will be included in merge. Otherwise, only files in selected folder will be merged (default behaviour).",
+		SettingIncludeNestedFoldersDescription: "If enabled, files in nested folders will be included in merge. Otherwise, only files in selected folder will be merged (default behaviour).",
 		SettingIncludeFoldersAsSections: "Include folders as sections",
-		SettingIncludeFoldersAsSectionsDescription:
-			"Folders will be included as named sections into output file.",
+		SettingIncludeFoldersAsSectionsDescription: "Folders will be included as named sections into output file.",
 		Yes: "Yes",
 		No: "No",
+		SettingSortMode: "Sort mode",
+		SettingSortModeDescription: "Pick the sorting mode for merging notes.",
+		SettingSortDateCreated: "Date created",
+		SettingSortLogical: "Logical",
+		SettingSortAlphabetically: "Alphabetical"
 	},
 	fi: {
 		MergeFolder: "Yhdistä kansio",
 		MergedFilesuffix: "yhdistetty",
 		OverwriteFileQuestion: "Korvaa olemassa oleva tiedosto",
 		Settings: "Asetukset",
-		SettingSortAlphabetically: "Lajittele tiedostot aakkosjärjestykseen",
-		SettingSortAlphabeticallyDescription:
-			"Jos käytössä, valitun kansion tiedostot lajitellaan aakkosjärjestyksessä sen täyden polun mukaan. Muussa tapauksessa tiedostot lajitellaan luomispäivämäärän mukaan (oletuskäyttäytyminen).",
 		SettingIncludeNestedFolders: "Sisällytä sisäkkäiset kansiot",
-		SettingIncludeNestedFoldersDescription:
-			"Jos käytössä, sisäkkäisten kansioiden tiedostot yhdistetään. Muussa tapauksessa vain valitun kansion tiedostot yhdistetään (oletustoiminto).",
+		SettingIncludeNestedFoldersDescription: "Jos käytössä, sisäkkäisten kansioiden tiedostot yhdistetään. Muussa tapauksessa vain valitun kansion tiedostot yhdistetään (oletustoiminto).",
 		SettingIncludeFoldersAsSections: "Sisällytä kansiot osioihin",
-		SettingIncludeFoldersAsSectionsDescription:
-			"Kansiot sisällytetään nimettyinä osina tulostiedostoon.",
+		SettingIncludeFoldersAsSectionsDescription: "Kansiot sisällytetään nimettyinä osina tulostiedostoon.",
 		Yes: "Kyllä",
 		No: "Ei",
+		SettingSortMode: "Lajittelu järjestys",
+		SettingSortModeDescription: "Valitse lajittelutapa muistiinpanojen yhdistämistä varten.",
+		SettingSortDateCreated: "Luontipäivämäärä",
+		SettingSortLogical: "Looginen",
+		SettingSortAlphabetically: "Aakkosjärjestys"
 	},
 	fr: {
 		MergeFolder: "Fusionner le dossier",
 		MergedFilesuffix: "fusionné",
 		OverwriteFileQuestion: "Remplacer le fichier existant",
 		Settings: "Paramètres",
-		SettingSortAlphabetically: "Trier les fichiers par ordre alphabétique",
-		SettingSortAlphabeticallyDescription:
-			"Si activé, les fichiers du dossier sélectionné seront triés par ordre alphabétique, en fonction de son chemin complet. Sinon, les fichiers seront triés par date de création (comportement par défaut).",
 		SettingIncludeNestedFolders: "Inclure les dossiers imbriqués",
-		SettingIncludeNestedFoldersDescription:
-			"Si activé, les fichiers des dossiers imbriqués seront inclus dans la fusion. Sinon, seuls les fichiers du dossier sélectionné seront fusionnés (comportement par défaut).",
-		SettingIncludeFoldersAsSections:
-			"Inclure les dossiers en tant que sections",
-		SettingIncludeFoldersAsSectionsDescription:
-			"Les dossiers seront inclus en tant que sections nommées dans le fichier de sortie.",
+		SettingIncludeNestedFoldersDescription: "Si activé, les fichiers des dossiers imbriqués seront inclus dans la fusion. Sinon, seuls les fichiers du dossier sélectionné seront fusionnés (comportement par défaut).",
+		SettingIncludeFoldersAsSections: "Inclure les dossiers en tant que sections",
+		SettingIncludeFoldersAsSectionsDescription: "Les dossiers seront inclus en tant que sections nommées dans le fichier de sortie.",
 		Yes: "Oui",
 		No: "Non",
+		SettingSortMode: "mode de tri",
+		SettingSortModeDescription: "Choisissez le mode de tri pour la fusion des notes.",
+		SettingSortDateCreated: "Date de création",
+		SettingSortLogical: "Logique",
+		SettingSortAlphabetically: "Alphabétique"
 	},
 	ru: {
 		MergeFolder: "Объединить папку",
 		MergedFilesuffix: "совмещенный",
 		OverwriteFileQuestion: "Перезаписать существующий файл",
 		Settings: "Настройки",
-		SettingSortAlphabetically: "Сортировать файлы по алфавиту",
-		SettingSortAlphabeticallyDescription:
-			"Если включено, файлы в выбранной папке будут отсортированы в алфавитном порядке в соответствии с полным путём. В противном случае, файлы будут отсортированы по дате создания (поведение по умолчанию).",
 		SettingIncludeNestedFolders: "Влючать вложенные папки",
-		SettingIncludeNestedFoldersDescription:
-			"Если включено, файлы во вложенных папках будут включены в слияние. В противном случае будут объединены только файлы в выбранной папке (поведение по умолчанию).",
+		SettingIncludeNestedFoldersDescription: "Если включено, файлы во вложенных папках будут включены в слияние. В противном случае будут объединены только файлы в выбранной папке (поведение по умолчанию).",
 		SettingIncludeFoldersAsSections: "Включать папки как разделы",
-		SettingIncludeFoldersAsSectionsDescription:
-			"Папки будут включены в выходной файл в качестве разделов.",
+		SettingIncludeFoldersAsSectionsDescription: "Папки будут включены в выходной файл в качестве разделов.",
 		Yes: "Да",
 		No: "Нет",
+		SettingSortMode: "режим сортировки",
+		SettingSortModeDescription: "Выберите режим сортировки при объединении заметок.",
+		SettingSortDateCreated: "Дата создания",
+		SettingSortLogical: "Логический",
+		SettingSortAlphabetically: "Алфавитный указатель"
 	},
 	ua: {
 		MergeFolder: "Об'єднати папку",
 		MergedFilesuffix: "об'єднані",
 		OverwriteFileQuestion: "Перезаписати існуючий файл",
 		Settings: "Налаштування",
-		SettingSortAlphabetically: "Сортувати файли за алфавітом",
-		SettingSortAlphabeticallyDescription:
-			"Якщо ввімкнено, файли у вибраній папці будуть відсортовані в алфавітному порядку відповідно до повного шляху. В іншому випадку файли будуть відсортовані за датою створення (поведінка за замовчуванням).",
 		SettingIncludeNestedFolders: "Включити вкладені папки",
-		SettingIncludeNestedFoldersDescription:
-			"Якщо ввімкнено, файли у вкладених папках будуть включені в об’єднання. В іншому випадку буде об’єднано лише файли у вибраній папці (поведінка за замовчуванням).",
+		SettingIncludeNestedFoldersDescription: "Якщо ввімкнено, файли у вкладених папках будуть включені в об’єднання. В іншому випадку буде об’єднано лише файли у вибраній папці (поведінка за замовчуванням).",
 		SettingIncludeFoldersAsSections: "Включити папки як розділи",
-		SettingIncludeFoldersAsSectionsDescription:
-			"Папки будуть включені як іменовані розділи у вихідний файл.",
+		SettingIncludeFoldersAsSectionsDescription: "Папки будуть включені як іменовані розділи у вихідний файл.",
 		Yes: "Так",
 		No: "Ні",
+		SettingSortMode: "Логический",
+		SettingSortModeDescription: "Виберіть режим сортування для об'єднання нотаток.",
+		SettingSortDateCreated: "Дата створення",
+		SettingSortLogical: "Логічний",
+		SettingSortAlphabetically: "За алфавітом"
 	},
 };
 
+/**
+ * Enum representing the available sorting options for merging notes.
+ * If you add a new option, make sure to add it to the settings in 'AdvancedMergeSettingTab.display'.
+ */
+enum SortOptions {
+	Alphabetically,
+	CreationDate,
+	Logical,
+}
+
 interface AdvancedMergePluginSettings {
-	sortAlphabetically: boolean;
+	sortMode: SortOptions;
 	includeNestedFolders: boolean;
 	includeFoldersAsSections: boolean;
 }
 
 const DEFAULT_SETTINGS: AdvancedMergePluginSettings = {
-	sortAlphabetically: false,
+	sortMode: SortOptions.Logical,
 	includeNestedFolders: false,
 	includeFoldersAsSections: false,
 };
@@ -220,8 +232,8 @@ export default class AdvancedMerge extends Plugin {
 	): Promise<void> {
 		const { vault } = this.app;
 
-		const documentEntries: Array<TAbstractFile> = [];
-		Vault.recurseChildren(folder, (folderOrFile: TAbstractFile) => {
+		const documentEntries: Array<TFile> = [];
+		Vault.recurseChildren(folder, (folderOrFile: TFile) => {
 			// For merging we are including only *.md files
 			if (
 				folderOrFile instanceof TFile &&
@@ -333,20 +345,22 @@ export default class AdvancedMerge extends Plugin {
 	 * @param {Array<TFile>} files - The files array, to be sorted.
 	 * @returns {Array<TFile>} Sorted files array.
 	 */
-	private sortNotes(files: Array<TAbstractFile>): Array<TAbstractFile> {
-		return this.settings.sortAlphabetically
-			? files.sort((a, b) => {
-					const x = a.path.toLowerCase();
-					const y = b.path.toLowerCase();
-					if (x < y) {
-						return -1;
-					}
-					if (x > y) {
-						return 1;
-					}
-					return 0;
-				})
-			: files.reverse();
+	private sortNotes(files: Array<TFile>): Array<TFile> {
+		switch (this.settings.sortMode) {
+			case SortOptions.Alphabetically:
+				return files.sort((a, b) =>
+					a.path.localeCompare(b.path, undefined, {
+						numeric: true,
+						sensitivity: "base",
+						usage: "sort",
+					})
+				);
+			case SortOptions.CreationDate:
+				return files.sort((a, b) => a.stat.ctime - b.stat.ctime);
+			case SortOptions.Logical:
+			default:
+				return files.reverse();
+		}
 	}
 
 	/**
@@ -392,20 +406,19 @@ class AdvancedMergeSettingTab extends PluginSettingTab {
 			text: `${PLUGIN_NAME} - ${this.plugin.translation.get().Settings}`,
 		});
 
-		// Add "sort alphabetically" toggle in settings
+		// Add "sort mode" dropdown in settings
 		new Setting(containerEl)
-			.setName(this.plugin.translation.get().SettingSortAlphabetically)
+			.setName(this.plugin.translation.get().SettingSortMode)
 			.setDesc(
 				this.plugin.translation.get()
-					.SettingSortAlphabeticallyDescription
+					.SettingSortModeDescription
 			)
-			.addToggle((toggle) =>
-				toggle
-					.setValue(this.plugin.settings.sortAlphabetically)
-					.onChange(async (value) => {
-						this.plugin.settings.sortAlphabetically = value;
-						await this.plugin.saveSettings();
-					})
+			.addDropdown((dropdown) =>
+				dropdown.addOptions({
+					[SortOptions.Alphabetically]: this.plugin.translation.get().SettingSortAlphabetically,
+					[SortOptions.CreationDate]: this.plugin.translation.get().SettingSortDateCreated,
+					[SortOptions.Logical]: this.plugin.translation.get().SettingSortLogical,
+				})
 			);
 
 		// Add "include nested folders" toggle in settings
