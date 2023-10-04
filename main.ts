@@ -35,16 +35,19 @@ const TRANSLATIONS: { [name: string]: Translation } = {
 		OverwriteFileQuestion: "Vorhandene Datei überschreiben",
 		Settings: "Einstellungen",
 		SettingIncludeNestedFolders: "Verschachtelte Ordner einbeziehen",
-		SettingIncludeNestedFoldersDescription: "Wenn aktiviert, werden Dateien in verschachtelten Ordnern zusammengeführt. Andernfalls werden nur Dateien im ausgewählten Ordner zusammengeführt (Standardverhalten).",
+		SettingIncludeNestedFoldersDescription:
+			"Wenn aktiviert, werden Dateien in verschachtelten Ordnern zusammengeführt. Andernfalls werden nur Dateien im ausgewählten Ordner zusammengeführt (Standardverhalten).",
 		SettingIncludeFoldersAsSections: "Ordner als Abschnitte einbeziehen",
-		SettingIncludeFoldersAsSectionsDescription: "Ordner werden als benannte Abschnitte in die Ausgabedatei eingefügt.",
+		SettingIncludeFoldersAsSectionsDescription:
+			"Ordner werden als benannte Abschnitte in die Ausgabedatei eingefügt.",
 		Yes: "Ja",
 		No: "Nein",
 		SettingSortMode: "Sortiermodus",
-		SettingSortModeDescription: "Wählen Sie den Sortiermodus für das Zusammenführen von Notizen.",
+		SettingSortModeDescription:
+			"Wählen Sie den Sortiermodus für das Zusammenführen von Notizen.",
 		SettingSortDateCreated: "Erstellungsdatum",
 		SettingSortLogical: "Logisch",
-		SettingSortAlphabetically: "Alphabetisch"
+		SettingSortAlphabetically: "Alphabetisch",
 	},
 	en: {
 		MergeFolder: "Merge folder",
@@ -52,16 +55,18 @@ const TRANSLATIONS: { [name: string]: Translation } = {
 		OverwriteFileQuestion: "Overwite exising file",
 		Settings: "Settings",
 		SettingIncludeNestedFolders: "Include nested folders",
-		SettingIncludeNestedFoldersDescription: "If enabled, files in nested folders will be included in merge. Otherwise, only files in selected folder will be merged (default behaviour).",
+		SettingIncludeNestedFoldersDescription:
+			"If enabled, files in nested folders will be included in merge. Otherwise, only files in selected folder will be merged (default behaviour).",
 		SettingIncludeFoldersAsSections: "Include folders as sections",
-		SettingIncludeFoldersAsSectionsDescription: "Folders will be included as named sections into output file.",
+		SettingIncludeFoldersAsSectionsDescription:
+			"Folders will be included as named sections into output file.",
 		Yes: "Yes",
 		No: "No",
 		SettingSortMode: "Sort mode",
 		SettingSortModeDescription: "Pick the sorting mode for merging notes.",
 		SettingSortDateCreated: "Date created",
 		SettingSortLogical: "Logical",
-		SettingSortAlphabetically: "Alphabetical"
+		SettingSortAlphabetically: "Alphabetical",
 	},
 	fi: {
 		MergeFolder: "Yhdistä kansio",
@@ -69,16 +74,19 @@ const TRANSLATIONS: { [name: string]: Translation } = {
 		OverwriteFileQuestion: "Korvaa olemassa oleva tiedosto",
 		Settings: "Asetukset",
 		SettingIncludeNestedFolders: "Sisällytä sisäkkäiset kansiot",
-		SettingIncludeNestedFoldersDescription: "Jos käytössä, sisäkkäisten kansioiden tiedostot yhdistetään. Muussa tapauksessa vain valitun kansion tiedostot yhdistetään (oletustoiminto).",
+		SettingIncludeNestedFoldersDescription:
+			"Jos käytössä, sisäkkäisten kansioiden tiedostot yhdistetään. Muussa tapauksessa vain valitun kansion tiedostot yhdistetään (oletustoiminto).",
 		SettingIncludeFoldersAsSections: "Sisällytä kansiot osioihin",
-		SettingIncludeFoldersAsSectionsDescription: "Kansiot sisällytetään nimettyinä osina tulostiedostoon.",
+		SettingIncludeFoldersAsSectionsDescription:
+			"Kansiot sisällytetään nimettyinä osina tulostiedostoon.",
 		Yes: "Kyllä",
 		No: "Ei",
 		SettingSortMode: "Lajittelu järjestys",
-		SettingSortModeDescription: "Valitse lajittelutapa muistiinpanojen yhdistämistä varten.",
+		SettingSortModeDescription:
+			"Valitse lajittelutapa muistiinpanojen yhdistämistä varten.",
 		SettingSortDateCreated: "Luontipäivämäärä",
 		SettingSortLogical: "Looginen",
-		SettingSortAlphabetically: "Aakkosjärjestys"
+		SettingSortAlphabetically: "Aakkosjärjestys",
 	},
 	fr: {
 		MergeFolder: "Fusionner le dossier",
@@ -86,16 +94,20 @@ const TRANSLATIONS: { [name: string]: Translation } = {
 		OverwriteFileQuestion: "Remplacer le fichier existant",
 		Settings: "Paramètres",
 		SettingIncludeNestedFolders: "Inclure les dossiers imbriqués",
-		SettingIncludeNestedFoldersDescription: "Si activé, les fichiers des dossiers imbriqués seront inclus dans la fusion. Sinon, seuls les fichiers du dossier sélectionné seront fusionnés (comportement par défaut).",
-		SettingIncludeFoldersAsSections: "Inclure les dossiers en tant que sections",
-		SettingIncludeFoldersAsSectionsDescription: "Les dossiers seront inclus en tant que sections nommées dans le fichier de sortie.",
+		SettingIncludeNestedFoldersDescription:
+			"Si activé, les fichiers des dossiers imbriqués seront inclus dans la fusion. Sinon, seuls les fichiers du dossier sélectionné seront fusionnés (comportement par défaut).",
+		SettingIncludeFoldersAsSections:
+			"Inclure les dossiers en tant que sections",
+		SettingIncludeFoldersAsSectionsDescription:
+			"Les dossiers seront inclus en tant que sections nommées dans le fichier de sortie.",
 		Yes: "Oui",
 		No: "Non",
 		SettingSortMode: "mode de tri",
-		SettingSortModeDescription: "Choisissez le mode de tri pour la fusion des notes.",
+		SettingSortModeDescription:
+			"Choisissez le mode de tri pour la fusion des notes.",
 		SettingSortDateCreated: "Date de création",
 		SettingSortLogical: "Logique",
-		SettingSortAlphabetically: "Alphabétique"
+		SettingSortAlphabetically: "Alphabétique",
 	},
 	ru: {
 		MergeFolder: "Объединить папку",
@@ -103,16 +115,19 @@ const TRANSLATIONS: { [name: string]: Translation } = {
 		OverwriteFileQuestion: "Перезаписать существующий файл",
 		Settings: "Настройки",
 		SettingIncludeNestedFolders: "Влючать вложенные папки",
-		SettingIncludeNestedFoldersDescription: "Если включено, файлы во вложенных папках будут включены в слияние. В противном случае будут объединены только файлы в выбранной папке (поведение по умолчанию).",
+		SettingIncludeNestedFoldersDescription:
+			"Если включено, файлы во вложенных папках будут включены в слияние. В противном случае будут объединены только файлы в выбранной папке (поведение по умолчанию).",
 		SettingIncludeFoldersAsSections: "Включать папки как разделы",
-		SettingIncludeFoldersAsSectionsDescription: "Папки будут включены в выходной файл в качестве разделов.",
+		SettingIncludeFoldersAsSectionsDescription:
+			"Папки будут включены в выходной файл в качестве разделов.",
 		Yes: "Да",
 		No: "Нет",
 		SettingSortMode: "режим сортировки",
-		SettingSortModeDescription: "Выберите режим сортировки при объединении заметок.",
+		SettingSortModeDescription:
+			"Выберите режим сортировки при объединении заметок.",
 		SettingSortDateCreated: "Дата создания",
 		SettingSortLogical: "Логический",
-		SettingSortAlphabetically: "Алфавитный указатель"
+		SettingSortAlphabetically: "Алфавитный указатель",
 	},
 	ua: {
 		MergeFolder: "Об'єднати папку",
@@ -120,16 +135,19 @@ const TRANSLATIONS: { [name: string]: Translation } = {
 		OverwriteFileQuestion: "Перезаписати існуючий файл",
 		Settings: "Налаштування",
 		SettingIncludeNestedFolders: "Включити вкладені папки",
-		SettingIncludeNestedFoldersDescription: "Якщо ввімкнено, файли у вкладених папках будуть включені в об’єднання. В іншому випадку буде об’єднано лише файли у вибраній папці (поведінка за замовчуванням).",
+		SettingIncludeNestedFoldersDescription:
+			"Якщо ввімкнено, файли у вкладених папках будуть включені в об’єднання. В іншому випадку буде об’єднано лише файли у вибраній папці (поведінка за замовчуванням).",
 		SettingIncludeFoldersAsSections: "Включити папки як розділи",
-		SettingIncludeFoldersAsSectionsDescription: "Папки будуть включені як іменовані розділи у вихідний файл.",
+		SettingIncludeFoldersAsSectionsDescription:
+			"Папки будуть включені як іменовані розділи у вихідний файл.",
 		Yes: "Так",
 		No: "Ні",
 		SettingSortMode: "Логический",
-		SettingSortModeDescription: "Виберіть режим сортування для об'єднання нотаток.",
+		SettingSortModeDescription:
+			"Виберіть режим сортування для об'єднання нотаток.",
 		SettingSortDateCreated: "Дата створення",
 		SettingSortLogical: "Логічний",
-		SettingSortAlphabetically: "За алфавітом"
+		SettingSortAlphabetically: "За алфавітом",
 	},
 };
 
@@ -216,10 +234,10 @@ export default class AdvancedMerge extends Plugin {
 						.setIcon(ICON_NAME)
 						.onClick(
 							async (evt) =>
-								await this.onClickCallback(folder, evt)
+								await this.onClickCallback(folder, evt),
 						);
 				});
-			})
+			}),
 		);
 
 		// This adds a settings tab so the user can configure various aspects of the plugin
@@ -228,7 +246,7 @@ export default class AdvancedMerge extends Plugin {
 
 	private async onClickCallback(
 		folder: TFolder,
-		_evt: MouseEvent | KeyboardEvent
+		_evt: MouseEvent | KeyboardEvent,
 	): Promise<void> {
 		const { vault } = this.app;
 
@@ -251,7 +269,7 @@ export default class AdvancedMerge extends Plugin {
 		});
 
 		const entries = this.sortNotes(
-			documentEntries.filter((entry) => this.filterNotes(folder, entry))
+			documentEntries.filter((entry) => this.filterNotes(folder, entry)),
 		);
 
 		const outputFileName = `${folder.path}-${
@@ -266,18 +284,18 @@ export default class AdvancedMerge extends Plugin {
 				async (deleteFile) => {
 					if (!deleteFile) {
 						console.info(
-							`file "${outputFileName}" already exists, but user cancelled deleting..`
+							`file "${outputFileName}" already exists, but user cancelled deleting..`,
 						);
 						return;
 					}
 
 					console.info(
-						`file "${outputFileName}" already exists, deleting..`
+						`file "${outputFileName}" already exists, deleting..`,
 					);
 					await vault.adapter.remove(outputFileName);
 
 					await this.mergeNotes(vault, entries, outputFileName);
-				}
+				},
 			).open();
 			return;
 		}
@@ -293,7 +311,7 @@ export default class AdvancedMerge extends Plugin {
 	private async mergeNotes(
 		vault: Vault,
 		entries: Array<TAbstractFile>,
-		outputFileName: string
+		outputFileName: string,
 	): Promise<void> {
 		const outputFile = await vault.create(outputFileName, "");
 
@@ -309,19 +327,19 @@ export default class AdvancedMerge extends Plugin {
 				const fileSectionName = folderOrFile.name.replace(/\.md$/, "");
 				// For the first file in a row, we shouldnt add new line
 				sectionContents = `${SECTION_CHAR.repeat(
-					sectionLevel
+					sectionLevel,
 				)} ${fileSectionName}${DOUBLE_NEW_LINE_CHAR}${sectionContents}${
 					lastEntry ? "" : DOUBLE_NEW_LINE_CHAR
 				}`;
 				console.info(
-					`Adding file "${folderOrFile.name}" as section "${fileSectionName}" into file "${outputFileName}"..`
+					`Adding file "${folderOrFile.name}" as section "${fileSectionName}" into file "${outputFileName}"..`,
 				);
 			} else if (folderOrFile instanceof TFolder) {
 				sectionContents += `${SECTION_CHAR.repeat(sectionLevel)} ${
 					folderOrFile.name
 				}${DOUBLE_NEW_LINE_CHAR}`;
 				console.info(
-					`Adding folder "${folderOrFile.name}" as section "${sectionContents}" into file "${outputFileName}"..`
+					`Adding folder "${folderOrFile.name}" as section "${sectionContents}" into file "${outputFileName}"..`,
 				);
 			}
 			vault.append(outputFile, sectionContents);
@@ -353,7 +371,7 @@ export default class AdvancedMerge extends Plugin {
 						numeric: true,
 						sensitivity: "base",
 						usage: "sort",
-					})
+					}),
 				);
 			case SortOptions.CreationDate:
 				return files.sort((a, b) => a.stat.ctime - b.stat.ctime);
@@ -370,7 +388,7 @@ export default class AdvancedMerge extends Plugin {
 		this.settings = Object.assign(
 			{},
 			DEFAULT_SETTINGS,
-			await this.loadData()
+			await this.loadData(),
 		);
 	}
 
@@ -409,16 +427,16 @@ class AdvancedMergeSettingTab extends PluginSettingTab {
 		// Add "sort mode" dropdown in settings
 		new Setting(containerEl)
 			.setName(this.plugin.translation.get().SettingSortMode)
-			.setDesc(
-				this.plugin.translation.get()
-					.SettingSortModeDescription
-			)
+			.setDesc(this.plugin.translation.get().SettingSortModeDescription)
 			.addDropdown((dropdown) =>
 				dropdown.addOptions({
-					[SortOptions.Alphabetically]: this.plugin.translation.get().SettingSortAlphabetically,
-					[SortOptions.CreationDate]: this.plugin.translation.get().SettingSortDateCreated,
-					[SortOptions.Logical]: this.plugin.translation.get().SettingSortLogical,
-				})
+					[SortOptions.Alphabetically]:
+						this.plugin.translation.get().SettingSortAlphabetically,
+					[SortOptions.CreationDate]:
+						this.plugin.translation.get().SettingSortDateCreated,
+					[SortOptions.Logical]:
+						this.plugin.translation.get().SettingSortLogical,
+				}),
 			);
 
 		// Add "include nested folders" toggle in settings
@@ -426,7 +444,7 @@ class AdvancedMergeSettingTab extends PluginSettingTab {
 			.setName(this.plugin.translation.get().SettingIncludeNestedFolders)
 			.setDesc(
 				this.plugin.translation.get()
-					.SettingIncludeNestedFoldersDescription
+					.SettingIncludeNestedFoldersDescription,
 			)
 			.addToggle((toggle) =>
 				toggle
@@ -439,7 +457,7 @@ class AdvancedMergeSettingTab extends PluginSettingTab {
 								: this.plugin.settings.includeFoldersAsSections;
 						await this.plugin.saveSettings();
 						this.showIncludeFolderAsSectionSetting(containerEl);
-					})
+					}),
 			);
 
 		this.showIncludeFolderAsSectionSetting(containerEl);
@@ -454,11 +472,11 @@ class AdvancedMergeSettingTab extends PluginSettingTab {
 		// Add "include folders as sections" toggle in settings
 		this.includeFolderAsSectionSetting = new Setting(containerEl)
 			.setName(
-				this.plugin.translation.get().SettingIncludeFoldersAsSections
+				this.plugin.translation.get().SettingIncludeFoldersAsSections,
 			)
 			.setDesc(
 				this.plugin.translation.get()
-					.SettingIncludeFoldersAsSectionsDescription
+					.SettingIncludeFoldersAsSectionsDescription,
 			)
 			.addToggle((toggle) =>
 				toggle
@@ -466,7 +484,7 @@ class AdvancedMergeSettingTab extends PluginSettingTab {
 					.onChange(async (value) => {
 						this.plugin.settings.includeFoldersAsSections = value;
 						await this.plugin.saveSettings();
-					})
+					}),
 			);
 	}
 }
@@ -488,7 +506,7 @@ class AdvancedMergeOverwriteFileModal extends Modal {
 		app: App,
 		translation: AdvancedMergeTranslation,
 		existingFileName: string,
-		handler: (result: boolean) => void
+		handler: (result: boolean) => void,
 	) {
 		super(app);
 		this.tranlation = translation;
@@ -516,7 +534,7 @@ class AdvancedMergeOverwriteFileModal extends Modal {
 					.onClick(() => {
 						this.close();
 						this.onSubmitHandler(false);
-					})
+					}),
 			)
 			.addButton((btn) =>
 				btn
@@ -525,7 +543,7 @@ class AdvancedMergeOverwriteFileModal extends Modal {
 					.onClick(() => {
 						this.close();
 						this.onSubmitHandler(true);
-					})
+					}),
 			);
 	}
 

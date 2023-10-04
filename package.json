@@ -1,34 +1,11 @@
 {
 	"name": "obsidian-advanced-merger",
 	"version": "1.4.0",
-	"description": "Merge a folder of notes for easier export. This plugin is designed for Obsidian (https://obsidian.md).",
-	"homepage": "https://github.com/antoKeinanen/obsidian-advanced-merger",
-	"contributors": [
-		{
-			"name": "Dmitry Besedin",
-			"email": "endarvaluk@gmail.com",
-			"url": "https://github.com/EndarValuk/"
-		}
-	],
-	"funding": [
-		{
-			"type": "individual",
-			"url": "https://www.buymeacoffee.com/antokeinanen"
-		}
-	],
-	"main": "main.js",
-	"scripts": {
-		"dev": "node esbuild.config.mjs",
-		"build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
-		"version": "node version-bump.mjs && git add manifest.json versions.json",
-		"prepare": "husky install"
-	},
-	"keywords": [],
 	"author": {
 		"name": "Anto Keinänen",
 		"url": "https://github.com/antoKeinanen/"
 	},
-	"license": "MIT",
+	"main": "main.js",
 	"devDependencies": {
 		"@types/node": "^16.11.6",
 		"@typescript-eslint/eslint-plugin": "5.29.0",
@@ -37,8 +14,32 @@
 		"esbuild": "0.17.3",
 		"husky": "^8.0.0",
 		"obsidian": "latest",
+		"prettier": "^3.0.3",
 		"pretty-quick": "^3.1.3",
 		"tslib": "2.4.0",
 		"typescript": "4.7.4"
+	},
+	"contributors": [
+		{
+			"name": "Dmitry Besedin",
+			"email": "endarvaluk@gmail.com",
+			"url": "https://github.com/EndarValuk/"
+		}
+	],
+	"description": "Merge a folder of notes for easier export. This plugin is designed for Obsidian (https://obsidian.md).",
+	"funding": [
+		{
+			"type": "individual",
+			"url": "https://www.buymeacoffee.com/antokeinanen"
+		}
+	],
+	"homepage": "https://github.com/antoKeinanen/obsidian-advanced-merger",
+	"keywords": [],
+	"license": "MIT",
+	"scripts": {
+		"dev": "node esbuild.config.mjs",
+		"build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
+		"version": "node version-bump.mjs && git add manifest.json versions.json",
+		"prepare": "husky install"
 	}
 }
