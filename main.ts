@@ -361,6 +361,11 @@ export default class AdvancedMerge extends Plugin {
 	private sortNotes(files: Array<TFile>): Array<TFile> {
 		switch (this.settings.sortMode) {
 			case "alphabetical":
+				return files.sort((a, b) => a.name.localeCompare(b.name));
+			case "creationDate":
+				return files.sort((a, b) => a.stat.ctime - b.stat.ctime);
+			case "logical":
+			default:
 				return files.sort((a, b) =>
 					a.path.localeCompare(b.path, undefined, {
 						numeric: true,
@@ -368,11 +373,6 @@ export default class AdvancedMerge extends Plugin {
 						usage: "sort",
 					}),
 				);
-			case "creationDate":
-				return files.sort((a, b) => a.stat.ctime - b.stat.ctime);
-			case "logical":
-			default:
-				return files.reverse();
 		}
 	}
 
