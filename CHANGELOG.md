@@ -1,3 +1,9 @@
+## obsidian-advanced-merger 1.5.0
+
+### Additions and Changes
+
+-   Added multiple ways to sort files on merge
+
 ## obsidian-advanced-merger 1.4.0
 
 ### Additions and Changes
