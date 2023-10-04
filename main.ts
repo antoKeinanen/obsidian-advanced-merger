@@ -155,20 +155,15 @@ const TRANSLATIONS: { [name: string]: Translation } = {
  * Enum representing the available sorting options for merging notes.
  * If you add a new option, make sure to add it to the settings in 'AdvancedMergeSettingTab.display'.
  */
-enum SortOptions {
-	Alphabetically,
-	CreationDate,
-	Logical,
-}
 
 interface AdvancedMergePluginSettings {
-	sortMode: SortOptions;
+	sortMode: "alphabetical" | "creationDate" | "logical";
 	includeNestedFolders: boolean;
 	includeFoldersAsSections: boolean;
 }
 
 const DEFAULT_SETTINGS: AdvancedMergePluginSettings = {
-	sortMode: SortOptions.Logical,
+	sortMode: "logical",
 	includeNestedFolders: false,
 	includeFoldersAsSections: false,
 };
@@ -365,7 +360,7 @@ export default class AdvancedMerge extends Plugin {
 	 */
 	private sortNotes(files: Array<TFile>): Array<TFile> {
 		switch (this.settings.sortMode) {
-			case SortOptions.Alphabetically:
+			case "alphabetical":
 				return files.sort((a, b) =>
 					a.path.localeCompare(b.path, undefined, {
 						numeric: true,
@@ -373,9 +368,9 @@ export default class AdvancedMerge extends Plugin {
 						usage: "sort",
 					}),
 				);
-			case SortOptions.CreationDate:
+			case "creationDate":
 				return files.sort((a, b) => a.stat.ctime - b.stat.ctime);
-			case SortOptions.Logical:
+			case "logical":
 			default:
 				return files.reverse();
 		}
@@ -385,6 +380,8 @@ export default class AdvancedMerge extends Plugin {
 	 * De-serializes settings from persistent storage.
 	 */
 	private async loadSettings(): Promise<void> {
+		const data = await this.loadData();
+		console.log("Loaded settings", data);
 		this.settings = Object.assign(
 			{},
 			DEFAULT_SETTINGS,
@@ -396,6 +393,7 @@ export default class AdvancedMerge extends Plugin {
 	 * Serializes settings into persistent storage.
 	 */
 	public async saveSettings(): Promise<void> {
+		console.log("Saving settings", this.settings);
 		await this.saveData(this.settings);
 	}
 }
@@ -429,14 +427,22 @@ class AdvancedMergeSettingTab extends PluginSettingTab {
 			.setName(this.plugin.translation.get().SettingSortMode)
 			.setDesc(this.plugin.translation.get().SettingSortModeDescription)
 			.addDropdown((dropdown) =>
-				dropdown.addOptions({
-					[SortOptions.Alphabetically]:
-						this.plugin.translation.get().SettingSortAlphabetically,
-					[SortOptions.CreationDate]:
-						this.plugin.translation.get().SettingSortDateCreated,
-					[SortOptions.Logical]:
-						this.plugin.translation.get().SettingSortLogical,
-				}),
+				dropdown
+					.addOptions({
+						alphabetical:
+							this.plugin.translation.get()
+								.SettingSortAlphabetically,
+						creationDate:
+							this.plugin.translation.get()
+								.SettingSortDateCreated,
+						logical:
+							this.plugin.translation.get().SettingSortLogical,
+					})
+					.onChange(async (value) => {
+						this.plugin.settings.sortMode = value as any;
+						await this.plugin.saveSettings();
+					})
+					.setValue(this.plugin.settings.sortMode),
 			);
 
 		// Add "include nested folders" toggle in settings
