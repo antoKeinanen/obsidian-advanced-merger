@@ -251,7 +251,10 @@ class AdvancedMergeSettingTab extends PluginSettingTab {
 							this.plugin.translation.get().SettingSortLogical,
 					})
 					.onChange(async (value) => {
-						this.plugin.settings.sortMode = value as any;
+						this.plugin.settings.sortMode = value as
+							| "alphabetical"
+							| "creationDate"
+							| "logical";
 						await this.plugin.saveSettings();
 					})
 					.setValue(this.plugin.settings.sortMode),
