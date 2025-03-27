@@ -1,3 +1,9 @@
+## obsidian-advanced-merger 1.6.0
+
+### Additions and Changes
+
+- Added functionality to automatically delete YAML properties
+
 ## obsidian-advanced-merger 1.5.0
 
 ### Additions and Changes
