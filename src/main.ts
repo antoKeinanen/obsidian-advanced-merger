@@ -150,10 +150,12 @@ export default class AdvancedMerge extends Plugin {
 				);
 			}
 
-			sectionContents = sectionContents.replace(
-				/^---\n(\w*:\s.*\n)*---/,
-				"",
-			);
+			if (this.settings.removeYamlProperties) {
+				sectionContents = sectionContents.replace(
+					/---\n(\w*:\s.*\n)*---/,
+					"",
+				);
+			}
 
 			vault.append(outputFile, sectionContents);
 		}

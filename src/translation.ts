@@ -161,3 +161,25 @@ export const TRANSLATIONS: Record<string, Translation> = {
 			"Видаляє властивості YAML із верхньої частини файлу під час об'єднання. УВАГА: Це може випадково видалити не-YAML частини.",
 	},
 };
+
+export class AdvancedMergeTranslation {
+	private language: string;
+
+	/**
+	 * Represents a plugin translation.
+	 * @constructor
+	 */
+	constructor() {
+		this.language = !Object.keys(TRANSLATIONS).contains(navigator.language)
+			? DEFAULT_LANGUAGE
+			: navigator.language;
+	}
+
+	/**
+	 * Gets translation object for current language.
+	 * @returns {Translation} Current translation object.
+	 */
+	public get(): Translation {
+		return TRANSLATIONS[this.language];
+	}
+}
