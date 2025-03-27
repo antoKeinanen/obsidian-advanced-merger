@@ -149,6 +149,12 @@ export default class AdvancedMerge extends Plugin {
 					`Adding folder "${folderOrFile.name}" as section "${sectionContents}" into file "${outputFileName}"..`,
 				);
 			}
+
+			sectionContents = sectionContents.replace(
+				/^---\n(\w*:\s.*\n)*---/,
+				"",
+			);
+
 			vault.append(outputFile, sectionContents);
 		}
 	}
@@ -278,6 +284,26 @@ class AdvancedMergeSettingTab extends PluginSettingTab {
 								: this.plugin.settings.includeFoldersAsSections;
 						await this.plugin.saveSettings();
 						this.showIncludeFolderAsSectionSetting(containerEl);
+					}),
+			);
+
+		// Add "remove yaml properties" toggle in settings
+		new Setting(containerEl)
+			.setName(this.plugin.translation.get().SettingRemoveYamlProperties)
+			.setDesc(
+				this.plugin.translation.get()
+					.SettingRemoveYamlPropertiesDescription,
+			)
+			.addToggle((toggle) =>
+				toggle
+					.setValue(this.plugin.settings.removeYamlProperties)
+					.onChange(async (value) => {
+						this.plugin.settings.removeYamlProperties = value;
+						this.plugin.settings.removeYamlProperties =
+							value === false
+								? value
+								: this.plugin.settings.removeYamlProperties;
+						await this.plugin.saveSettings();
 					}),
 			);
 

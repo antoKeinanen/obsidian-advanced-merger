@@ -40,9 +40,9 @@ All contributions are welcome, but before making anything big please consider st
 
 # Code of conduct
 
--   Make sure your code is formatted with the `npm/yarn run format` script.
--   Use angular commit message style. More info [here](https://github.com/antoKeinanen/obsidian-advanced-merger#commit-message-format).
--   Please _DO NOT_ modify `manifest.json` as it breaks the plugin download system. For beta release use [BRAT](https://tfthacker.com/Obsidian+Plugins+by+TfTHacker/BRAT+-+Beta+Reviewer's+Auto-update+Tool/Quick+guide+for+using+BRAT#Testing+Plugins) and version bump `manifest-beta.json`.
+- Make sure your code is formatted with the `npm/yarn run format` script.
+- Use angular commit message style. More info [here](https://github.com/antoKeinanen/obsidian-advanced-merger#commit-message-format).
+- Please _DO NOT_ modify `manifest.json` as it breaks the plugin download system. For beta release use [BRAT](https://tfthacker.com/Obsidian+Plugins+by+TfTHacker/BRAT+-+Beta+Reviewer's+Auto-update+Tool/Quick+guide+for+using+BRAT#Testing+Plugins) and version bump `manifest-beta.json`.
 
 ## Commit message format
 
@@ -74,25 +74,25 @@ The type field is always required. A summary is optional when bumping the versio
 **Example**: `fix(#123): fix a bug where XYZ`, `bump-version`, `feat(#123): add a feature that XYZ`
 Must be one of the following:
 
--   build: Changes that affect the build system or external dependencies
--   docs: Documentation only changes
--   feat: A new feature
--   fix: A bug fix
--   refactor: A code change that neither fixes a bug nor adds a feature
--   test: Adding new tests or correcting existing tests
+- build: Changes that affect the build system or external dependencies
+- docs: Documentation only changes
+- feat: A new feature
+- fix: A bug fix
+- refactor: A code change that neither fixes a bug nor adds a feature
+- test: Adding new tests or correcting existing tests
 
 ## Summary
 
 Use the summary field to provide a succinct description of the change:
 
--   use the imperative, present tense: "change" not "changed" nor "changes"
--   don't capitalize the first letter
--   no dot (.) at the end
+- use the imperative, present tense: "change" not "changed" nor "changes"
+- don't capitalize the first letter
+- no dot (.) at the end
 
 ## Message body
 
--   Optional but recommended
--   Just as in <subject> use imperative, present tense: “change” not “changed” nor “changes”
+- Optional but recommended
+- Just as in <subject> use imperative, present tense: “change” not “changed” nor “changes”
 
 # Support
 

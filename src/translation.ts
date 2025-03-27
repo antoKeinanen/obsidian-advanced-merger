@@ -14,11 +14,13 @@ export interface Translation {
 	SettingIncludeNestedFoldersDescription: string;
 	SettingIncludeFoldersAsSections: string;
 	SettingIncludeFoldersAsSectionsDescription: string;
+	SettingRemoveYamlProperties: string;
+	SettingRemoveYamlPropertiesDescription: string;
 	Yes: string;
 	No: string;
 }
 
-export const TRANSLATIONS: { [name: string]: Translation } = {
+export const TRANSLATIONS: Record<string, Translation> = {
 	de: {
 		MergeFolder: "Ordner zusammenführen",
 		MergedFilesuffix: "zusammengeführt",
@@ -38,25 +40,32 @@ export const TRANSLATIONS: { [name: string]: Translation } = {
 		SettingSortDateCreated: "Erstellungsdatum",
 		SettingSortLogical: "Logisch",
 		SettingSortAlphabetically: "Alphabetisch",
+		SettingRemoveYamlProperties: "YAML-Eigenschaften entfernen",
+		SettingRemoveYamlPropertiesDescription:
+			"Entfernt YAML-Eigenschaften vom Anfang der Datei während des Zusammenführens. WARNUNG: Dies könnte unbeabsichtigt nicht-YAML-Teile entfernen.",
 	},
 	en: {
 		MergeFolder: "Merge folder",
 		MergedFilesuffix: "merged",
-		OverwriteFileQuestion: "Overwite exising file",
+		OverwriteFileQuestion: "Overwrite existing file",
 		Settings: "Settings",
 		SettingIncludeNestedFolders: "Include nested folders",
 		SettingIncludeNestedFoldersDescription:
-			"If enabled, files in nested folders will be included in merge. Otherwise, only files in selected folder will be merged (default behaviour).",
+			"If enabled, files in nested folders will be included in the merge. Otherwise, only files in the selected folder will be merged (default behavior).",
 		SettingIncludeFoldersAsSections: "Include folders as sections",
 		SettingIncludeFoldersAsSectionsDescription:
-			"Folders will be included as named sections into output file.",
+			"Folders will be included as named sections in the output file.",
 		Yes: "Yes",
 		No: "No",
 		SettingSortMode: "Sort mode",
-		SettingSortModeDescription: "Pick the sorting mode for merging notes.",
+		SettingSortModeDescription:
+			"Choose the sorting mode for merging notes.",
 		SettingSortDateCreated: "Date created",
 		SettingSortLogical: "Logical",
 		SettingSortAlphabetically: "Alphabetical",
+		SettingRemoveYamlProperties: "Remove YAML properties",
+		SettingRemoveYamlPropertiesDescription:
+			"Removes YAML properties from the top of the file during the merge. WARNING: This might unintentionally remove non yaml parts.",
 	},
 	fi: {
 		MergeFolder: "Yhdistä kansio",
@@ -71,12 +80,15 @@ export const TRANSLATIONS: { [name: string]: Translation } = {
 			"Kansiot sisällytetään nimettyinä osina tulostiedostoon.",
 		Yes: "Kyllä",
 		No: "Ei",
-		SettingSortMode: "Lajittelu järjestys",
+		SettingSortMode: "Lajittelujärjestys",
 		SettingSortModeDescription:
 			"Valitse lajittelutapa muistiinpanojen yhdistämistä varten.",
 		SettingSortDateCreated: "Luontipäivämäärä",
 		SettingSortLogical: "Looginen",
 		SettingSortAlphabetically: "Aakkosjärjestys",
+		SettingRemoveYamlProperties: "Poista YAML-osio",
+		SettingRemoveYamlPropertiesDescription:
+			"Poistaa YAML-osio tiedoston yläosasta yhdistämisen aikana. VAROITUS: Tämä voi vahingossa poistaa ei-YAML-osia.",
 	},
 	fr: {
 		MergeFolder: "Fusionner le dossier",
@@ -98,6 +110,9 @@ export const TRANSLATIONS: { [name: string]: Translation } = {
 		SettingSortDateCreated: "Date de création",
 		SettingSortLogical: "Logique",
 		SettingSortAlphabetically: "Alphabétique",
+		SettingRemoveYamlProperties: "Supprimer les propriétés YAML",
+		SettingRemoveYamlPropertiesDescription:
+			"Supprime les propriétés YAML du haut du fichier lors de la fusion. ATTENTION : Cela pourrait supprimer accidentellement des parties non YAML.",
 	},
 	ru: {
 		MergeFolder: "Объединить папку",
@@ -118,6 +133,9 @@ export const TRANSLATIONS: { [name: string]: Translation } = {
 		SettingSortDateCreated: "Дата создания",
 		SettingSortLogical: "Логический",
 		SettingSortAlphabetically: "Алфавитный указатель",
+		SettingRemoveYamlProperties: "Удалить свойства YAML",
+		SettingRemoveYamlPropertiesDescription:
+			"Удаляет свойства YAML из верхней части файла во время объединения. ВНИМАНИЕ: Это может случайно удалить не-YAML части.",
 	},
 	ua: {
 		MergeFolder: "Об'єднати папку",
@@ -138,27 +156,8 @@ export const TRANSLATIONS: { [name: string]: Translation } = {
 		SettingSortDateCreated: "Дата створення",
 		SettingSortLogical: "Логічний",
 		SettingSortAlphabetically: "За алфавітом",
+		SettingRemoveYamlProperties: "Видалити властивості YAML",
+		SettingRemoveYamlPropertiesDescription:
+			"Видаляє властивості YAML із верхньої частини файлу під час об'єднання. УВАГА: Це може випадково видалити не-YAML частини.",
 	},
 };
-
-export class AdvancedMergeTranslation {
-	private language: string;
-
-	/**
-	 * Represents a plugin translation.
-	 * @constructor
-	 */
-	constructor() {
-		this.language = !Object.keys(TRANSLATIONS).contains(navigator.language)
-			? DEFAULT_LANGUAGE
-			: navigator.language;
-	}
-
-	/**
-	 * Gets translation object for current language.
-	 * @returns {Translation} Current translation object.
-	 */
-	public get(): Translation {
-		return TRANSLATIONS[this.language];
-	}
-}
