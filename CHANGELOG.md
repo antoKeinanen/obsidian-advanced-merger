@@ -1,4 +1,4 @@
-## obsidian-advanced-merger 1.6.0
+## obsidian-advanced-merger 1.7.0
 
 ### Additions and Changes
 
