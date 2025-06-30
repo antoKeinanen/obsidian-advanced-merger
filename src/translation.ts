@@ -46,7 +46,8 @@ export const TRANSLATIONS: Record<string, Translation> = {
 		SettingRemoveYamlPropertiesDescription:
 			"Entfernt YAML-Eigenschaften vom Anfang der Datei während des Zusammenführens. WARNUNG: Dies könnte unbeabsichtigt nicht-YAML-Teile entfernen.",
 		SettingIncludeFilenames: "Dateinamen einbeziehen",
-		SettingIncludeFilenamesDescription: "Wenn aktiviert, werden die Dateinamen in die Ausgabedatei aufgenommen.",
+		SettingIncludeFilenamesDescription:
+			"Wenn aktiviert, werden die Dateinamen in die Ausgabedatei aufgenommen.",
 	},
 	en: {
 		MergeFolder: "Merge folder",
@@ -71,7 +72,8 @@ export const TRANSLATIONS: Record<string, Translation> = {
 		SettingRemoveYamlPropertiesDescription:
 			"Removes YAML properties from the top of the file during the merge. WARNING: This might unintentionally remove non yaml parts.",
 		SettingIncludeFilenames: "Include filenames",
-		SettingIncludeFilenamesDescription: "If enabled, filenames will be included in the output file.",
+		SettingIncludeFilenamesDescription:
+			"If enabled, filenames will be included in the output file.",
 	},
 	fi: {
 		MergeFolder: "Yhdistä kansio",
@@ -96,7 +98,8 @@ export const TRANSLATIONS: Record<string, Translation> = {
 		SettingRemoveYamlPropertiesDescription:
 			"Poistaa YAML-osio tiedoston yläosasta yhdistämisen aikana. VAROITUS: Tämä voi vahingossa poistaa ei-YAML-osia.",
 		SettingIncludeFilenames: "Sisällytä tiedostonimet",
-		SettingIncludeFilenamesDescription: "Jos käytössä, tiedostonimet sisällytetään tulostiedostoon.",
+		SettingIncludeFilenamesDescription:
+			"Jos käytössä, tiedostonimet sisällytetään tulostiedostoon.",
 	},
 	fr: {
 		MergeFolder: "Fusionner le dossier",
@@ -122,7 +125,8 @@ export const TRANSLATIONS: Record<string, Translation> = {
 		SettingRemoveYamlPropertiesDescription:
 			"Supprime les propriétés YAML du haut du fichier lors de la fusion. ATTENTION : Cela pourrait supprimer accidentellement des parties non YAML.",
 		SettingIncludeFilenames: "Inclure les noms de fichiers",
-		SettingIncludeFilenamesDescription: "Si activé, les noms de fichiers seront inclus dans le fichier de sortie.",
+		SettingIncludeFilenamesDescription:
+			"Si activé, les noms de fichiers seront inclus dans le fichier de sortie.",
 	},
 	ru: {
 		MergeFolder: "Объединить папку",
@@ -147,7 +151,8 @@ export const TRANSLATIONS: Record<string, Translation> = {
 		SettingRemoveYamlPropertiesDescription:
 			"Удаляет свойства YAML из верхней части файла во время объединения. ВНИМАНИЕ: Это может случайно удалить не-YAML части.",
 		SettingIncludeFilenames: "Включать имена файлов",
-		SettingIncludeFilenamesDescription: "Если включено, имена файлов будут включены в выходной файл.",
+		SettingIncludeFilenamesDescription:
+			"Если включено, имена файлов будут включены в выходной файл.",
 	},
 	ua: {
 		MergeFolder: "Об'єднати папку",
@@ -172,7 +177,8 @@ export const TRANSLATIONS: Record<string, Translation> = {
 		SettingRemoveYamlPropertiesDescription:
 			"Видаляє властивості YAML із верхньої частини файлу під час об'єднання. УВАГА: Це може випадково видалити не-YAML частини.",
 		SettingIncludeFilenames: "Включити імена файлів",
-		SettingIncludeFilenamesDescription: "Якщо ввімкнено, імена файлів будуть включені у вихідний файл.",
+		SettingIncludeFilenamesDescription:
+			"Якщо ввімкнено, імена файлів будуть включені у вихідний файл.",
 	},
 };
 
