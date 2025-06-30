@@ -7,6 +7,7 @@ export interface AdvancedMergePluginSettings {
 	includeNestedFolders: boolean;
 	includeFoldersAsSections: boolean;
 	removeYamlProperties: boolean;
+	includeFilenames: boolean;
 }
 
 export const DEFAULT_SETTINGS: AdvancedMergePluginSettings = {
@@ -14,4 +15,5 @@ export const DEFAULT_SETTINGS: AdvancedMergePluginSettings = {
 	includeNestedFolders: false,
 	includeFoldersAsSections: false,
 	removeYamlProperties: false,
+	includeFilenames: true,
 };

@@ -2,6 +2,12 @@
 
 ### Additions and Changes
 
+- Added a setting to include or exclude filenames form the merged document
+
+## obsidian-advanced-merger 1.6.0
+
+### Additions and Changes
+
 - Added functionality to automatically delete YAML properties
 
 ## obsidian-advanced-merger 1.5.0

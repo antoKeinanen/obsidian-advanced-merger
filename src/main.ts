@@ -110,10 +110,10 @@ export default class AdvancedMerge extends Plugin {
 	}
 
 	/**
-	 * Merges input notes to single output file.
-	 * @param {Vault} vault - Current vault.
-	 * @param {Array<TAbstractFile>} entries - Files and folders, to be included.
-	 * @param {string} outputFileName - Output file name.
+	 * Merges input notes to a single output file.
+	 * @param vault - Current vault.
+	 * @param entries - Files and folders to be included.
+	 * @param outputFileName - Output file name.
 	 */
 	private async mergeNotes(
 		vault: Vault,
@@ -123,41 +123,50 @@ export default class AdvancedMerge extends Plugin {
 		const outputFile = await vault.create(outputFileName, "");
 
 		for (let index = 0; index < entries.length; index++) {
-			const folderOrFile: TAbstractFile = entries[index];
-			const sectionLevel = (folderOrFile.path.match(/\//g) || []).length;
+			const entry = entries[index];
+			const sectionLevel = (entry.path.match(/\//g) || []).length;
+			const isLastEntry = index === entries.length - 1;
+			let sectionContents = index === 0 ? "" : NEW_LINE_CHAR;
 
-			let sectionContents = `${index === 0 ? "" : NEW_LINE_CHAR}`;
-			const lastEntry = index === entries.length - 1;
+			if (entry instanceof TFile) {
+				const fileContent = await vault.cachedRead(entry);
+				const fileSectionName = entry.name.replace(/\.md$/, "");
 
-			if (folderOrFile instanceof TFile) {
-				sectionContents += await vault.cachedRead(folderOrFile);
-				const fileSectionName = folderOrFile.name.replace(/\.md$/, "");
-				// For the first file in a row, we shouldnt add new line
-				sectionContents = `${SECTION_CHAR.repeat(
-					sectionLevel,
-				)} ${fileSectionName}${DOUBLE_NEW_LINE_CHAR}${sectionContents}${
-					lastEntry ? "" : DOUBLE_NEW_LINE_CHAR
-				}`;
+				if (this.settings.includeFilenames) {
+					sectionContents += `${SECTION_CHAR.repeat(sectionLevel)} ${fileSectionName}`;
+					sectionContents += DOUBLE_NEW_LINE_CHAR;
+				}
+
+				sectionContents += fileContent;
+
+				if (!isLastEntry) {
+					sectionContents += DOUBLE_NEW_LINE_CHAR;
+				}
+
 				console.info(
-					`Adding file "${folderOrFile.name}" as section "${fileSectionName}" into file "${outputFileName}"..`,
+					`Adding file "${entry.name}" as section "${fileSectionName}" into file "${outputFileName}"..`,
 				);
-			} else if (folderOrFile instanceof TFolder) {
-				sectionContents += `${SECTION_CHAR.repeat(sectionLevel)} ${
-					folderOrFile.name
-				}${DOUBLE_NEW_LINE_CHAR}`;
+			} else if (entry instanceof TFolder) {
+				if (this.settings.includeFilenames) {
+					sectionContents += SECTION_CHAR.repeat(sectionLevel);
+					sectionContents += entry.name;
+				}
+
+				sectionContents += DOUBLE_NEW_LINE_CHAR;
+
 				console.info(
-					`Adding folder "${folderOrFile.name}" as section "${sectionContents}" into file "${outputFileName}"..`,
+					`Adding folder "${entry.name}" as section "${entry.name}" into file "${outputFileName}"..`,
 				);
 			}
 
 			if (this.settings.removeYamlProperties) {
 				sectionContents = sectionContents.replace(
-					/---\n(\w*:\s.*\n)*---/,
+					/^---\n[\s\S]*?\n---\n?/m,
 					"",
 				);
 			}
 
-			vault.append(outputFile, sectionContents);
+			await vault.append(outputFile, sectionContents);
 		}
 	}
 
@@ -305,6 +314,26 @@ class AdvancedMergeSettingTab extends PluginSettingTab {
 							value === false
 								? value
 								: this.plugin.settings.removeYamlProperties;
+						await this.plugin.saveSettings();
+					}),
+			);
+
+		// Add "remove yaml properties" toggle in settings
+		new Setting(containerEl)
+			.setName(this.plugin.translation.get().SettingIncludeFilenames)
+			.setDesc(
+				this.plugin.translation.get()
+					.SettingIncludeFilenamesDescription,
+			)
+			.addToggle((toggle) =>
+				toggle
+					.setValue(this.plugin.settings.includeFilenames)
+					.onChange(async (value) => {
+						this.plugin.settings.includeFilenames = value;
+						this.plugin.settings.includeFilenames =
+							value === false
+								? value
+								: this.plugin.settings.includeFilenames;
 						await this.plugin.saveSettings();
 					}),
 			);
